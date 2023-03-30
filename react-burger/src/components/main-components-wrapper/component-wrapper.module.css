@@ -1,0 +1,25 @@
+
+main{
+    display: grid;
+    grid-template-areas: 'title title''ingredients order';
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+h1{
+    grid-area: title;
+}
+.ingredients{
+    grid-area: ingredients;
+}
+.order{
+    grid-area: order;
+    box-sizing: border-box;
+    max-height: 75%;
+}
+.orderPrice{
+    display:flex;
+    justify-content:end;
+    gap:40px
+}
