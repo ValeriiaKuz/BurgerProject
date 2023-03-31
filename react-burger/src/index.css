@@ -8,7 +8,6 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
 ::-webkit-scrollbar {
   width: 0;
@@ -17,11 +16,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
-h1{
+h1 {
   padding: 0;
   margin: 0;
 }
-h2{
+h2 {
   padding: 0;
   margin: 0;
 }

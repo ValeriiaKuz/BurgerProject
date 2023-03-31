@@ -7,18 +7,18 @@ import BurgerCostructor from "../burger-constructor/burger-constructor";
 
 const ingredientsData = require('../../utils/data.json')
 const ComponentWrapper = () => {
-    const[addedIngredients,getAddedIngredients]=useState([])
+    const[addedIngredients, getAddedIngredients] = useState([])
     return(
         <main>
-            <h1 className="text text_type_main-large mt-5 mb-5">Соберите бургер</h1>
-            <section className={style.ingredients}>
+            <h1 className = "text text_type_main-large mt-5 mb-5">Соберите бургер</h1>
+            <section className = {style.ingredients}>
                 <BurgerIngredients ingredientsData={ingredientsData} getAddedIngredients={getAddedIngredients} addedIngredients={addedIngredients}/>
             </section>
-            <section className={style.order}>
-                <BurgerCostructor addedIngredients={addedIngredients} />
-                <div className={style.orderPrice+' '+ 'pr-4 pt-10'} >
-                    <OrderPrice addedIngredients={addedIngredients}/>
-                    <Button htmlType="button" type="primary" size="medium">
+            <section className = {style.order}>
+                <BurgerCostructor addedIngredients = {addedIngredients} />
+                <div className = {style.orderPrice + ' ' + 'pr-4 pt-10'} >
+                    <OrderPrice addedIngredients = {addedIngredients}/>
+                    <Button htmlType = "button" type = "primary" size = "medium">
                         Оформить заказ
                     </Button>
                 </div>
