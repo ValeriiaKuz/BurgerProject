@@ -2,8 +2,18 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    height: 90%;
     overflow-y: scroll;
-    height: 70vh;
+}
+.addedIngredients{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:end;
+}
+.withIcon{
+    width:100%;
+    text-align:end
 }
 .customScroll::-webkit-scrollbar {
     -webkit-appearance: none;

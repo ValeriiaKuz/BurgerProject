@@ -11,7 +11,7 @@ const BurgerCostructor = (props) => {
         }})
     let sauceAndMain = props.addedIngredients.map((ingedient,index)=>{
         if(ingedient.type!=='bun'){
-            return <div style={{width:'100%', textAlign:'end'}}>
+            return <div className={style.withIcon}>
                 <DragIcon type="primary"/>
                 <ConstructorElement key={index} text={ingedient.name}
                                     price={ingedient.price}
@@ -28,13 +28,13 @@ const BurgerCostructor = (props) => {
         }})
 
     return (
-            <div className={style.wrapper + ' ' + style.customScroll}>
-                <div style={{ display:'flex', flexDirection:'column', gap:'10px', alignItems:'end'}} className='pr-4'>
-                    {bunElementTop}
-                    {sauceAndMain}
-                    {bunElementBottom}
-                </div>
+        <div className={style.wrapper + ' ' + style.customScroll}>
+            <div  className={style.addedIngredients + ' '+'pr-4'}>
+                {bunElementTop}
+                {sauceAndMain}
+                {bunElementBottom}
             </div>
+        </div>
     )
 }
 export default BurgerCostructor
