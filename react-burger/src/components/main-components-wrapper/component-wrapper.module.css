@@ -1,22 +1,17 @@
 
 main{
-    display: grid;
-    grid-template-areas: 'title title''ingredients order';
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
     column-gap: 40px;
     max-width: 1240px;
     margin: 0 auto;
+    height: 100%;
 }
 h1{
-    grid-area: title;
+    width: 100%;
 }
-.ingredients{
-    grid-area: ingredients;
-}
-.order{
-    grid-area: order;
-    box-sizing: border-box;
-    max-height: 75%;
+.ingredients,.order{
+    flex:1;
 }
 .orderPrice{
     display:flex;

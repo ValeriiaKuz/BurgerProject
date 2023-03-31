@@ -1,12 +1,19 @@
-.cards{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 24px;
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
 }
 .cardsWrapper{
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
-
-    /*    Не понимаю, какое значение задать  */
+    height: 70vh;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 }
 
 .customScroll::-webkit-scrollbar {

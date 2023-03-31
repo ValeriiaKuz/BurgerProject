@@ -7,15 +7,15 @@ const BurgerCostructor = (props) => {
             return <ConstructorElement key={index} type='top' isLocked={true}
                                        text={ingedient.name+'  (верх)'}
                                        price={ingedient.price}
-                                       thumbnail={ingedient.image}/>
+                                       thumbnail={ingedient.image} />
         }})
     let sauceAndMain = props.addedIngredients.map((ingedient,index)=>{
         if(ingedient.type!=='bun'){
-            return <div>
-                <DragIcon type="primary" />
+            return <div style={{width:'100%', textAlign:'end'}}>
+                <DragIcon type="primary"/>
                 <ConstructorElement key={index} text={ingedient.name}
                                     price={ingedient.price}
-                                    thumbnail={ingedient.image}/>
+                                    thumbnail={ingedient.image} />
             </div>
         }}
     )
@@ -28,13 +28,13 @@ const BurgerCostructor = (props) => {
         }})
 
     return (
-        <div className={style.wrapper + ' ' + style.customScroll}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {bunElementTop}
-                {sauceAndMain}
-                {bunElementBottom}
+            <div className={style.wrapper + ' ' + style.customScroll}>
+                <div style={{ display:'flex', flexDirection:'column', gap:'10px', alignItems:'end'}} className='pr-4'>
+                    {bunElementTop}
+                    {sauceAndMain}
+                    {bunElementBottom}
+                </div>
             </div>
-        </div>
     )
 }
 export default BurgerCostructor

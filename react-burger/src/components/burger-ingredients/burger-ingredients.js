@@ -1,11 +1,16 @@
 import style from './burger-ingredients.module.css'
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import IngredientCard from "./ingredient-card/ingredient-card";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 
 const BurgerIngredients = (props) =>{
     const [addedIngredient, getAddedIngredient]=useState([]);
     props.getAddedIngredients(addedIngredient)
+
+    const [tabId,getTabId]= useState("Булки")
+    useEffect(()=>{
+        document.getElementById(tabId).scrollIntoView({ behavior: "smooth",block:"start"})
+    },[tabId])
     let getElementByType = (type, props) => {
         let cardArray = props.ingredientsData.map((ingredient, index) => {
             if (ingredient.type === type) {
@@ -13,20 +18,19 @@ const BurgerIngredients = (props) =>{
             }
         })
         return cardArray}
-
-    const bunRef = useRef();
-    const sauceRef = useRef();
-    const mainRef = useRef();
-    function handleTabClick(ref) {
-        ref.current?.scrollIntoView({ behavior: 'smooth' })
-    }
     return (
-        <div className={style.ingredients}>
-            <IngredientsTab handleTabClick={handleTabClick} bun={bunRef} sauce={sauceRef} main={mainRef}/>
-            <div className={style.cardsWrapper+' '+style.customScroll}>
-                <BunCards  getElementByType={getElementByType} props={props}/>
-                <SauceCards ref={sauceRef} getElementByType={getElementByType} props={props}/>
-                <MainCards ref={mainRef} getElementByType={getElementByType} props={props}/>
+        <div className={style.wrapper}>
+            <IngredientsTab getTabId={getTabId}/>
+                <div className={style.cardsWrapper+' '+style.customScroll}>
+                    <div id="Булки">
+                        <BunCards  getElementByType={getElementByType} props={props}/>
+                    </div>
+                    <div id="Соусы" >
+                        <SauceCards  getElementByType={getElementByType} props={props}/>
+                    </div>
+                    <div id="Начинки">
+                        <MainCards getElementByType={getElementByType} props={props}/>
+                    </div>
             </div>
         </div>)
 }

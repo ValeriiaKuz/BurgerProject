@@ -8,7 +8,7 @@ function AppHeader () {
                     <ul className={style.navList}>
                         <li className={'pr-5' + ' '+style.navItem}>
                             <BurgerIcon type={"primary"} />
-                            <a href='#' className={'text text_type_main-default text_color_primary'+' '+ style.navLink}>
+                            <a href='#' className={style.navLink + ' '+'text text_type_main-default'}>
                                 Конструктор
                             </a>
                         </li>
