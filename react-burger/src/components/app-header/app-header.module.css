@@ -1,6 +1,7 @@
-.header{
+.header {
     background: #1C1C21;;
 }
+
 .wrapper {
     max-width: 1240px;
     margin: 0 auto;
@@ -8,31 +9,37 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .nav,
 .logo,
-.profile{
-    flex:1;
+.profile {
+    flex: 1;
 }
-.navList{
+
+.navList {
     list-style: none;
     display: flex;
-    gap:8px;
+    gap: 8px;
     padding: 0;
     margin: 0;
 }
-.navItem{
+
+.navItem {
     display: flex;
-    gap:8px
+    gap: 8px
 }
-.navLink{
+
+.navLink {
     text-decoration: none;
     color: var(--text-inactive-color)
 }
+
 .navLink:hover,
-.navLink:active{
+.navLink:active {
     color: var(--text-primary-color)
 }
-.profile{
+
+.profile {
     composes: navItem;
     justify-content: end;
 }

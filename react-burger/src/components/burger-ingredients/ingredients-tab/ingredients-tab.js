@@ -1,10 +1,11 @@
 import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import style from './ingredients-tab.module.css'
 
 const IngredientsTab = (props) => {
     const [current, setCurrent] = React.useState('Булки')
     return (
-        <div style = {{ display:'flex'}}>
+        <div className={style.wrapper}>
             <Tab value = "Булки" active = {current === 'Булки'} onClick = {() => {setCurrent('Булки'); props.getTabId("Булки")}}>
                 Булки
             </Tab>

@@ -1,40 +1,54 @@
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './burger-constructor.module.css'
 
-const BurgerCostructor = (props) => {
-    let bunElementTop = props.addedIngredients.map((ingedient,index) => {
-        if(ingedient.type==='bun'){
-            return <ConstructorElement key = {index} type = 'top' isLocked = {true}
-                                       text = {ingedient.name + '  (верх)'}
-                                       price = {ingedient.price}
-                                       thumbnail = {ingedient.image} />
-        }})
-    let sauceAndMain = props.addedIngredients.map((ingedient,index) => {
-        if(ingedient.type !== 'bun'){
-            return <div className = {style.withIcon}>
-                <DragIcon type = 'primary'/>
-                <ConstructorElement key = {index} text = {ingedient.name}
-                                    price = {ingedient.price}
-                                    thumbnail = {ingedient.image}/>
-            </div>
-        }}
+const BurgerConstructor = (props) => {
+    const bunElementTop = props.addedIngredients.map((ingredient, index) => {
+        if (ingredient.type === 'bun') {
+            return (
+                <ConstructorElement key={index} type='top' isLocked={true}
+                                    text={ingredient.name + '  (верх)'}
+                                    price={ingredient.price}
+                                    thumbnail={ingredient.image}/>
+            )
+        }
+    })
+    const sauceAndMain = props.addedIngredients.map((ingredient, index) => {
+            if (ingredient.type !== 'bun') {
+                return (
+                    <div className={style.withIcon} key={index}>
+                        <DragIcon type='primary'/>
+                        <ConstructorElement text={ingredient.name}
+                                            price={ingredient.price}
+                                            thumbnail={ingredient.image}/>
+                    </div>)
+            }
+        }
     )
-    let bunElementBottom = props.addedIngredients.map((ingedient, index) => {
-        if(ingedient.type === 'bun'){
-            return <ConstructorElement key = {index} type = 'bottom' isLocked = {true}
-                                       text = {ingedient.name + '  (верх)'}
-                                       price = {ingedient.price}
-                                       thumbnail = {ingedient.image}/>
-        }})
+    const bunElementBottom = props.addedIngredients.map((ingredient, index) => {
+        if (ingredient.type === 'bun') {
+            return (
+                <ConstructorElement key={index} type='bottom' isLocked={true}
+                                    text={ingredient.name + '  (низ)'}
+                                    price={ingredient.price}
+                                    thumbnail={ingredient.image}/>
+            )
+        }
+    })
 
     return (
-        <div className = {style.wrapper + ' ' + style.customScroll}>
-            <div  className = {style.addedIngredients + ' ' + 'pr-4'}>
+        <div className={style.constructorWrapper}>
+            <div className={style.bunWrapper + ' ' + 'mt-4 mb-4'}>
                 {bunElementTop}
-                {sauceAndMain}
+            </div>
+            <div className={style.wrapper + ' ' + style.customScroll}>
+                <div className={style.addedIngredients + ' ' + 'pr-4'}>
+                    {sauceAndMain}
+                </div>
+            </div>
+            <div className={style.bunWrapper + ' ' + 'mt-4 '}>
                 {bunElementBottom}
             </div>
         </div>
     )
 }
-export default BurgerCostructor
+export default BurgerConstructor
