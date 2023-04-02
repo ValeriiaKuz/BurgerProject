@@ -1,5 +1,8 @@
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './burger-constructor.module.css'
+import PropTypes from "prop-types";
+import {ingredientPropTypes} from "../../utils/propTypes";
+
 
 const BurgerConstructor = (props) => {
     const bunElementTop = props.addedIngredients.map((ingredient, index) => {
@@ -50,5 +53,8 @@ const BurgerConstructor = (props) => {
             </div>
         </div>
     )
+}
+BurgerConstructor.propTypes = {
+    addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 export default BurgerConstructor

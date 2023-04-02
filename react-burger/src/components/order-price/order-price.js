@@ -1,4 +1,6 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import {orderPricePropTypes} from "../../utils/propTypes";
 
 const OrderPrice = (props) => {
     const totalOrderPrice = function () {
@@ -14,5 +16,8 @@ const OrderPrice = (props) => {
             <CurrencyIcon type="primary"/>
         </div>
     )
+}
+OrderPrice.propTypes = {
+    addedIngredients: PropTypes.arrayOf(orderPricePropTypes).isRequired
 }
 export default OrderPrice

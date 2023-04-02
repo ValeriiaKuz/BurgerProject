@@ -1,6 +1,7 @@
 import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './ingredients-tab.module.css'
+import PropTypes from "prop-types";
 
 const IngredientsTab = (props) => {
     const [current, setCurrent] = React.useState('Булки')
@@ -17,4 +18,8 @@ const IngredientsTab = (props) => {
             </Tab>
         </div>
     )}
+IngredientsTab.prototype = {
+    getTabId:PropTypes.func.isRequired
+}
+
 export default IngredientsTab

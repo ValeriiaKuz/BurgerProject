@@ -1,6 +1,8 @@
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useState} from "react";
 import style from './ingredient-card.module.css'
+import PropTypes from "prop-types";
+import {ingredientPropTypes} from "../../../utils/propTypes";
 
 function IngredientCard(props) {
     const [count, setCount] = useState(0)
@@ -28,6 +30,15 @@ function IngredientCard(props) {
             {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
         </div>
     )
+}
+
+IngredientCard.prototype = {
+    key: PropTypes.number.isRequired,
+    ingredient: PropTypes.instanceOf(ingredientPropTypes).isRequired,
+    addedIngredient: PropTypes.instanceOf(ingredientPropTypes).isRequired,
+    getAddedIngredient: PropTypes.func.isRequired,
+    bunAdded: PropTypes.bool.isRequired,
+    setBunAdded: PropTypes.func.isRequired
 }
 
 export default IngredientCard
