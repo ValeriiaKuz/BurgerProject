@@ -5,8 +5,6 @@ import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../../utils/propTypes";
 import Modal from "../../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-
-
 function IngredientCard(props) {
     const [count, setCount] = useState(0)
     const [isOpenModal, setIsOpenModal] = useState(false)
@@ -21,7 +19,8 @@ function IngredientCard(props) {
             {isOpenModal &&
                 <Modal onClose={handleCloseModal} header={'Детали ингредиента'}>
                     <IngredientDetails ingredient={props.ingredient}/>
-                </Modal>}
+                </Modal>
+            }
             <div className={style.card} onClick={
                 () => {
                     handleOpenModal()
@@ -37,17 +36,19 @@ function IngredientCard(props) {
                     }
                 }
             }>
-
                 <img className="pl-4 pr-4" src={props.ingredient.image} alt={'Ингредиент'}/>
                 <span className={`text text_type_digits-default pt-1 pb-1 ${style.price}`}>
-                {props.ingredient.price}
+                    {props.ingredient.price}
                     <CurrencyIcon type="primary"/>
-            </span>
-                <span className="text text_type_main-default pt-2 pb-5"> {props.ingredient.name} </span>
-                {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
+                </span>
+                <span className="text text_type_main-default pt-2 pb-5">
+                    {props.ingredient.name}
+                </span>
+                {count > 0 &&
+                    <Counter count={count} size="default" extraClass="m-1"/>
+                }
             </div>
         </div>
-
     )
 }
 
@@ -59,5 +60,4 @@ IngredientCard.prototype = {
     bunAdded: PropTypes.bool.isRequired,
     setBunAdded: PropTypes.func.isRequired
 }
-
 export default IngredientCard

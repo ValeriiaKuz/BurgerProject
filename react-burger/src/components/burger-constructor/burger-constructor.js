@@ -2,20 +2,18 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import style from './burger-constructor.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/propTypes";
-
-
 const BurgerConstructor = (props) => {
-    const bunElementTop = props.addedIngredients.map((ingredient, index) => {
+    const bunElementTop = props.addedIngredients.map(ingredient => {
         if (ingredient.type === 'bun') {
             return (
-                <ConstructorElement key={index} type='top' isLocked={true}
+                <ConstructorElement key={ingredient._id} type='top' isLocked={true}
                                     text={ingredient.name + '  (верх)'}
                                     price={ingredient.price}
                                     thumbnail={ingredient.image}/>
             )
         }
     })
-    const sauceAndMain = props.addedIngredients.map((ingredient, index) => {
+    const sauceAndMain = props.addedIngredients.map((ingredient,index) => {
             if (ingredient.type !== 'bun') {
                 return (
                     <div className={style.withIcon} key={index}>
@@ -27,10 +25,10 @@ const BurgerConstructor = (props) => {
             }
         }
     )
-    const bunElementBottom = props.addedIngredients.map((ingredient, index) => {
+    const bunElementBottom = props.addedIngredients.map(ingredient => {
         if (ingredient.type === 'bun') {
             return (
-                <ConstructorElement key={index} type='bottom' isLocked={true}
+                <ConstructorElement key={ingredient._id} type='bottom' isLocked={true}
                                     text={ingredient.name + '  (низ)'}
                                     price={ingredient.price}
                                     thumbnail={ingredient.image}/>
@@ -40,15 +38,15 @@ const BurgerConstructor = (props) => {
 
     return (
         <div className={style.constructorWrapper}>
-            <div className={style.bunWrapper + ' ' + 'mt-4 mb-4'}>
+            <div className={`${style.bunWrapper} mt-4 mb-4`}>
                 {bunElementTop}
             </div>
-            <div className={style.wrapper + ' ' + style.customScroll}>
-                <div className={style.addedIngredients + ' ' + 'pr-4'}>
+            <div className={`${style.wrapper} ${style.customScroll}`}>
+                <div className={`${style.addedIngredients} pr-4`}>
                     {sauceAndMain}
                 </div>
             </div>
-            <div className={style.bunWrapper + ' ' + 'mt-4 '}>
+            <div className={`${style.bunWrapper} mt-4`}>
                 {bunElementBottom}
             </div>
         </div>

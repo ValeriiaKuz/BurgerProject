@@ -1,4 +1,4 @@
-import orderDoneImg from '../../img/orderDone.svg'
+import orderDoneImg from '../../../images/orderDone.svg'
 import React from "react";
 import style from './order-details.module.css'
 

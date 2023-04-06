@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import style from './component-wrapper.module.css'
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import OrderPrice from "../order-price/order-price";
+import OrderPrice from "../burger-constructor/order-price/order-price";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
+import OrderDetails from "../burger-constructor/order-details/order-details";
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/propTypes";
 
@@ -18,7 +18,6 @@ const ComponentWrapper = (props) => {
     const handleCloseModal = () => {
         setIsOpenModal(false)
     }
-
     return (
         <main>
             <h1 className="text text_type_main-large mt-5 mb-5">Соберите бургер</h1>

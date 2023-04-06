@@ -1,6 +1,6 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/propTypes";
+import {ingredientPropTypes} from "../../../utils/propTypes";
 
 const OrderPrice = (props) => {
     const totalOrderPrice = function () {
@@ -12,7 +12,9 @@ const OrderPrice = (props) => {
     }
     return (
         <div>
-            <span className="text text_type_digits-medium">{totalOrderPrice()}</span>
+            <span className="text text_type_digits-medium">
+                {totalOrderPrice()}
+            </span>
             <CurrencyIcon type="primary"/>
         </div>
     )

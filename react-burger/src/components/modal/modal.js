@@ -19,7 +19,6 @@ const Modal = (props) => {
         };
     }, [escClose]);
 
-
     return ReactDOM.createPortal(
         (
             <>
