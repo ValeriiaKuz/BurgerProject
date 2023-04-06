@@ -7,7 +7,9 @@ import {ingredientPropTypes} from "../../utils/propTypes";
 
 
 const BurgerIngredients = (props) => {
+
     const [addedIngredient, getAddedIngredient] = useState([]);
+
     useEffect(() => {
         props.getAddedIngredients(addedIngredient)
     }, [addedIngredient])
@@ -17,13 +19,14 @@ const BurgerIngredients = (props) => {
         document.getElementById(tabId).scrollIntoView({behavior: "smooth", block: "start"})
     }, [tabId])
 
-    const [bunAdded, setBunAdded] = useState("false")
+    const [bunAdded, setBunAdded] = useState(false)
+
     const getElementByType = (type, ingredientsData) => {
         return ingredientsData.map((ingredient, index) => {
             if (ingredient.type === type) {
                 return <IngredientCard key={index} ingredient={ingredient} addedIngredient={addedIngredient}
                                        getAddedIngredient={getAddedIngredient} bunAdded={bunAdded}
-                                       setBunAdded={setBunAdded}/>
+                                       setBunAdded={setBunAdded} />
             }
         })
     }

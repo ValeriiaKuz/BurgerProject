@@ -1,0 +1,17 @@
+.contentWrapper {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.nutrition {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    gap: 20px;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+}

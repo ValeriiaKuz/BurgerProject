@@ -1,6 +1,6 @@
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import {orderPricePropTypes} from "../../utils/propTypes";
+import {ingredientPropTypes} from "../../utils/propTypes";
 
 const OrderPrice = (props) => {
     const totalOrderPrice = function () {
@@ -18,6 +18,6 @@ const OrderPrice = (props) => {
     )
 }
 OrderPrice.propTypes = {
-    addedIngredients: PropTypes.arrayOf(orderPricePropTypes).isRequired
+    addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 export default OrderPrice
