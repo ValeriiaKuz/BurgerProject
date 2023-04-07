@@ -2,6 +2,7 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import style from './burger-constructor.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/propTypes";
+
 const BurgerConstructor = (props) => {
     const bunElementTop = props.addedIngredients.map(ingredient => {
         if (ingredient.type === 'bun') {
@@ -13,7 +14,7 @@ const BurgerConstructor = (props) => {
             )
         }
     })
-    const sauceAndMain = props.addedIngredients.map((ingredient,index) => {
+    const sauceAndMain = props.addedIngredients.map((ingredient, index) => {
             if (ingredient.type !== 'bun') {
                 return (
                     <div className={style.withIcon} key={index}>

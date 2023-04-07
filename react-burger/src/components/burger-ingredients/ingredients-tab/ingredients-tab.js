@@ -18,7 +18,7 @@ const IngredientsTab = (props) => {
             </Tab>
         </div>
     )}
-IngredientsTab.prototype = {
+IngredientsTab.propTypes = {
     getTabId:PropTypes.func.isRequired
 }
 export default IngredientsTab

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import AppHeader from "../app-header/app-header";
 import ComponentWrapper from "../main-components-wrapper/component-wrapper";
 import style from './app.module.css'
+
 const App = () => {
     const URL = 'https://norma.nomoreparties.space/api/ingredients';
     const [ingredientsData, setIngredientsData] = useState(null)
@@ -16,12 +17,12 @@ const App = () => {
                 }
                 const data = await res.json();
                 setIngredientsData(data.data)
-                setIsLoading(false)
             } catch (err) {
                 console.log(err.message)
                 alert(err.message)
-                setIsLoading(false)
                 setIsError(true)
+            } finally {
+                setIsLoading(false)
             }
         }
         getIngredientsData();

@@ -43,6 +43,6 @@ const ComponentWrapper = (props) => {
 }
 
 ComponentWrapper.propTypes = {
-    ingredientsData:PropTypes.arrayOf(ingredientPropTypes).isRequired
+    ingredientsData: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 export default ComponentWrapper
