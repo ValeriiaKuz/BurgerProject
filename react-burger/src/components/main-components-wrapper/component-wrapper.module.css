@@ -1,0 +1,23 @@
+main {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+    height: 78%;
+}
+
+h1 {
+    width: 100%;
+}
+
+.ingredients, .order {
+    height: 100%;
+    flex: 1;
+}
+
+.orderPrice {
+    display: flex;
+    justify-content: end;
+    gap: 40px
+}

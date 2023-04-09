@@ -1,0 +1,32 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cardsWrapper {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.customScroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+}
+
+.customScroll::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    border: 3px solid #2F2F37;
+    border-radius: 6px;
+}
