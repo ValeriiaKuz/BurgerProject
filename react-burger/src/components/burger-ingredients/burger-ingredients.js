@@ -1,14 +1,15 @@
 import style from './burger-ingredients.module.css'
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import IngredientCard from "./ingredient-card/ingredient-card";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/propTypes";
 import TypeOfIngredients from "./type-of-ingredients/type-of-ingredients";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
+import {IngredientsContext} from "../../services/ingredients-context";
 
 const BurgerIngredients = (props) => {
+    const {ingredientsData} = useContext(IngredientsContext);
     const [addedIngredient, getAddedIngredient] = useState([])
     const [tabId, getTabId] = useState("Булки")
     const [bunAdded, setBunAdded] = useState(false)
@@ -26,7 +27,8 @@ const BurgerIngredients = (props) => {
             if (ingredient.type === type) {
                 return (<IngredientCard key={ingredient._id} ingredient={ingredient} addedIngredient={addedIngredient}
                                         getAddedIngredient={getAddedIngredient} bunAdded={bunAdded}
-                                        setBunAdded={setBunAdded} handleOpenModal={handleOpenModal}/>)
+                                        setBunAdded={setBunAdded} handleOpenModal={handleOpenModal}
+                                        orderPriceDispatcher={props.orderPriceDispatcher}/>)
             }
         })
     }
@@ -49,22 +51,21 @@ const BurgerIngredients = (props) => {
             <div className={`${style.cardsWrapper} ${style.customScroll}`}>
                 <div id="Булки">
                     <TypeOfIngredients header='Булки' type='bun' getElementByType={getElementByType}
-                                       ingredientsData={props.ingredientsData}/>
+                                       ingredientsData={ingredientsData}/>
                 </div>
                 <div id="Соусы">
                     <TypeOfIngredients header='Соусы' type='sauce' getElementByType={getElementByType}
-                                       ingredientsData={props.ingredientsData}/>
+                                       ingredientsData={ingredientsData}/>
                 </div>
                 <div id="Начинки">
                     <TypeOfIngredients header='Начинки' type='main' getElementByType={getElementByType}
-                                       ingredientsData={props.ingredientsData}/>
+                                       ingredientsData={ingredientsData}/>
                 </div>
             </div>
         </div>)
 }
 BurgerIngredients.propTypes = {
-    ingredientsData: PropTypes.arrayOf(ingredientPropTypes).isRequired,
     getAddedIngredients: PropTypes.func.isRequired,
-    addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
+    orderPriceDispatcher:PropTypes.func.isRequired
 }
 export default BurgerIngredients

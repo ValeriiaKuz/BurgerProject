@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import AppHeader from "../app-header/app-header";
 import ComponentWrapper from "../main-components-wrapper/component-wrapper";
 import style from './app.module.css'
+import {IngredientsContext} from '../../services/ingredients-context'
 
 const App = () => {
     const URL = 'https://norma.nomoreparties.space/api/ingredients';
@@ -32,7 +33,10 @@ const App = () => {
             <AppHeader/>
             {isLoading && <span> Загрузка </span>}
             {isError && <span> Ошибка: что-то пошло не так. </span>}
-            {!isLoading && !isError && <ComponentWrapper ingredientsData={ingredientsData}/>}
+            <IngredientsContext.Provider value={{ingredientsData}}>
+                {!isLoading && !isError && <ComponentWrapper/>}
+            </IngredientsContext.Provider>
+
         </div>
     );
 }

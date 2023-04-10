@@ -16,10 +16,12 @@ function IngredientCard(props) {
                             setCount(1);
                             props.setBunAdded(true);
                             props.getAddedIngredient([...props.addedIngredient, props.ingredient])
+                            props.orderPriceDispatcher({type:'bun', ingredient:props.ingredient})
                         }
                     } else if (props.ingredient.type !== 'bun') {
                         setCount(count + 1);
                         props.getAddedIngredient([...props.addedIngredient, props.ingredient])
+                        props.orderPriceDispatcher({type:'another', ingredient:props.ingredient})
                     }
                 }
             }>
@@ -45,6 +47,7 @@ IngredientCard.propTypes = {
     getAddedIngredient: PropTypes.func.isRequired,
     bunAdded: PropTypes.bool.isRequired,
     setBunAdded: PropTypes.func.isRequired,
-    handleOpenModal: PropTypes.func.isRequired
+    handleOpenModal: PropTypes.func.isRequired,
+    orderPriceDispatcher: PropTypes.func.isRequired
 }
 export default IngredientCard
