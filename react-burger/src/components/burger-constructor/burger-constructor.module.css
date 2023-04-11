@@ -1,43 +1,43 @@
 .constructorWrapper {
-    display: flex;
-    flex-direction: column;
-    height: 88%;
+  display: flex;
+  flex-direction: column;
+  height: 88%;
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 90%;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  overflow-y: scroll;
 }
 
 .bunWrapper {
-    text-align: center;
+  text-align: center;
 }
 
 .addedIngredients {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: end;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: end;
 }
 
 .withIcon {
-    width: 100%;
-    text-align: end
+  width: 100%;
+  text-align: end;
 }
 
 .customScroll::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 12px;
+  -webkit-appearance: none;
+  width: 12px;
 }
 
 .customScroll::-webkit-scrollbar-track {
-    background: #2F2F37;
+  background: #2f2f37;
 }
 
 .customScroll::-webkit-scrollbar-thumb {
-    background: #8585AD;
-    border: 3px solid #2F2F37;
-    border-radius: 6px;
+  background: #8585ad;
+  border: 3px solid #2f2f37;
+  border-radius: 6px;
 }

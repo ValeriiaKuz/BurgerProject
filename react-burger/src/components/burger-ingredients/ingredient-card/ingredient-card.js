@@ -1,53 +1,72 @@
-import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useState} from "react";
-import style from './ingredient-card.module.css'
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useState } from "react";
+import style from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../../utils/propTypes";
+import { ingredientPropTypes } from "../../../utils/propTypes";
 
 function IngredientCard(props) {
-    const [count, setCount] = useState(0)
-    return (
-        <div>
-            <div className={style.card} onClick={
-                () => {
-                    props.handleOpenModal(props.ingredient)
-                    if (props.ingredient.type === 'bun') {
-                        if (props.bunAdded === false) {
-                            setCount(1);
-                            props.setBunAdded(true);
-                            props.getAddedIngredient([...props.addedIngredient, props.ingredient])
-                            props.orderPriceDispatcher({type:'bun', ingredient:props.ingredient})
-                        }
-                    } else if (props.ingredient.type !== 'bun') {
-                        setCount(count + 1);
-                        props.getAddedIngredient([...props.addedIngredient, props.ingredient])
-                        props.orderPriceDispatcher({type:'another', ingredient:props.ingredient})
-                    }
-                }
-            }>
-                <img className="pl-4 pr-4" src={props.ingredient.image} alt={'Ингредиент'}/>
-                <span className={`text text_type_digits-default pt-1 pb-1 ${style.price}`}>
-                    {props.ingredient.price}
-                    <CurrencyIcon type="primary"/>
-                </span>
-                <span className="text text_type_main-default pt-2 pb-5">
-                    {props.ingredient.name}
-                </span>
-                {count > 0 &&
-                    <Counter count={count} size="default" extraClass="m-1"/>
-                }
-            </div>
-        </div>
-    )
+  const {
+    ingredient,
+    addedIngredient,
+    getAddedIngredient,
+    bunAdded,
+    setBunAdded,
+    handleOpenModal,
+    orderPriceDispatcher,
+  } = props;
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <div
+        className={style.card}
+        onClick={() => {
+          handleOpenModal(ingredient);
+          if (ingredient.type === "bun") {
+            if (bunAdded === false) {
+              setCount(1);
+              setBunAdded(true);
+              getAddedIngredient([...addedIngredient, ingredient]);
+              orderPriceDispatcher({
+                type: "bun",
+                ingredient: ingredient,
+              });
+            }
+          } else if (ingredient.type !== "bun") {
+            setCount(count + 1);
+            getAddedIngredient([...addedIngredient, ingredient]);
+            orderPriceDispatcher({
+              type: "another",
+              ingredient: ingredient,
+            });
+          }
+        }}
+      >
+        <img className="pl-4 pr-4" src={ingredient.image} alt={"Ингредиент"} />
+        <span
+          className={`text text_type_digits-default pt-1 pb-1 ${style.price}`}
+        >
+          {ingredient.price}
+          <CurrencyIcon type="primary" />
+        </span>
+        <span className="text text_type_main-default pt-2 pb-5">
+          {ingredient.name}
+        </span>
+        {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
+      </div>
+    </div>
+  );
 }
 
 IngredientCard.propTypes = {
-    ingredient: ingredientPropTypes.isRequired,
-    addedIngredient: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-    getAddedIngredient: PropTypes.func.isRequired,
-    bunAdded: PropTypes.bool.isRequired,
-    setBunAdded: PropTypes.func.isRequired,
-    handleOpenModal: PropTypes.func.isRequired,
-    orderPriceDispatcher: PropTypes.func.isRequired
-}
-export default IngredientCard
+  ingredient: ingredientPropTypes.isRequired,
+  addedIngredient: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  getAddedIngredient: PropTypes.func.isRequired,
+  bunAdded: PropTypes.bool.isRequired,
+  setBunAdded: PropTypes.func.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
+  orderPriceDispatcher: PropTypes.func.isRequired,
+};
+export default IngredientCard;
