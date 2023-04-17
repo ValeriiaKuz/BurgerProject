@@ -1,26 +1,29 @@
 import style from "../burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/propTypes";
+import IngredientCard from "../ingredient-card/ingredient-card";
 
-const TypeOfIngredients = ({
-  header,
-  type,
-  getElementByType,
-  ingredientsData,
-}) => {
+const TypeOfIngredients = ({ header, ingredients, handleOpenModal }) => {
   return (
     <div>
       <h2 className="mt-10 mb-6">{header}</h2>
       <div className={style.cards}>
-        {getElementByType(type, ingredientsData)}
+        {ingredients.map((ingredient) => {
+          return (
+            <IngredientCard
+              key={ingredient._id}
+              ingredient={ingredient}
+              handleOpenModal={handleOpenModal}
+            />
+          );
+        })}
       </div>
     </div>
   );
 };
 TypeOfIngredients.propTypes = {
   header: PropTypes.string,
-  type: PropTypes.string,
-  getElementByType: PropTypes.func.isRequired,
-  ingredientsData: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
 };
 export default TypeOfIngredients;

@@ -3,15 +3,13 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./ingredients-tab.module.css";
 import PropTypes from "prop-types";
 
-const IngredientsTab = ({ getTabId }) => {
-  const [current, setCurrent] = React.useState("Булки");
+const IngredientsTab = ({ tabId, getTabId }) => {
   return (
     <div className={style.wrapper}>
       <Tab
         value="Булки"
-        active={current === "Булки"}
+        active={tabId === "Булки"}
         onClick={() => {
-          setCurrent("Булки");
           getTabId("Булки");
         }}
       >
@@ -19,9 +17,8 @@ const IngredientsTab = ({ getTabId }) => {
       </Tab>
       <Tab
         value="Соусы"
-        active={current === "Соусы"}
+        active={tabId === "Соусы"}
         onClick={() => {
-          setCurrent("Соусы");
           getTabId("Соусы");
         }}
       >
@@ -29,9 +26,8 @@ const IngredientsTab = ({ getTabId }) => {
       </Tab>
       <Tab
         value="Начинки"
-        active={current === "Начинки"}
+        active={tabId === "Начинки"}
         onClick={() => {
-          setCurrent("Начинки");
           getTabId("Начинки");
         }}
       >
@@ -41,6 +37,7 @@ const IngredientsTab = ({ getTabId }) => {
   );
 };
 IngredientsTab.propTypes = {
+  tabId: PropTypes.string.isRequired,
   getTabId: PropTypes.func.isRequired,
 };
 export default IngredientsTab;

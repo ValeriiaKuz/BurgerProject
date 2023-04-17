@@ -1,6 +1,5 @@
 import style from "./burger-ingredients.module.css";
-import React, { useEffect, useState } from "react";
-import IngredientCard from "./ingredient-card/ingredient-card";
+import React, { useEffect, useMemo, useState } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import TypeOfIngredients from "./type-of-ingredients/type-of-ingredients";
 import Modal from "../modal/modal";
@@ -13,7 +12,6 @@ import {
 
 const BurgerIngredients = () => {
   const [tabId, getTabId] = useState("Булки");
-
   const ingredientsData = useSelector(
     (store) => store.ingredients.ingredientsData
   );
@@ -34,19 +32,39 @@ const BurgerIngredients = () => {
   const handleCloseModal = () => {
     dispatch({ type: CLOSE_INGREDIENT });
   };
-  const getElementByType = (type, ingredientsData) => {
-    return ingredientsData.map((ingredient) => {
-      if (ingredient.type === type) {
-        return (
-          <IngredientCard
-            key={ingredient._id}
-            ingredient={ingredient}
-            handleOpenModal={handleOpenModal}
-          />
-        );
-      }
+
+  const sauces = useMemo(
+    () => ingredientsData.filter((ingredient) => ingredient.type === "sauce"),
+    [ingredientsData]
+  );
+  const buns = useMemo(
+    () => ingredientsData.filter((ingredient) => ingredient.type === "bun"),
+    [ingredientsData]
+  );
+  const mains = useMemo(
+    () => ingredientsData.filter((ingredient) => ingredient.type === "main"),
+    [ingredientsData]
+  );
+
+  useEffect(() => {
+    const callback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          getTabId(entry.target.id);
+        }
+      });
+    };
+    const options = {
+      root: document.getElementById("wrapper"),
+      rootMargin: "0px 0px -90% 0px",
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(callback, options);
+    const sections = document.querySelectorAll(".section");
+    sections.forEach((section) => {
+      observer.observe(section);
     });
-  };
+  }, []);
 
   return (
     <div className={style.wrapper}>
@@ -55,30 +73,30 @@ const BurgerIngredients = () => {
           <IngredientDetails ingredient={openedIngredient} />
         </Modal>
       )}
-      <IngredientsTab getTabId={getTabId} />
-      <div className={`${style.cardsWrapper} ${style.customScroll}`}>
-        <div id="Булки">
+      <IngredientsTab getTabId={getTabId} tabId={tabId} />
+      <div
+        className={`${style.cardsWrapper} ${style.customScroll}`}
+        id="wrapper"
+      >
+        <div id="Булки" className="section">
           <TypeOfIngredients
             header="Булки"
-            type="bun"
-            getElementByType={getElementByType}
-            ingredientsData={ingredientsData}
+            ingredients={buns}
+            handleOpenModal={handleOpenModal}
           />
         </div>
-        <div id="Соусы">
+        <div id="Соусы" className="section">
           <TypeOfIngredients
             header="Соусы"
-            type="sauce"
-            getElementByType={getElementByType}
-            ingredientsData={ingredientsData}
+            ingredients={sauces}
+            handleOpenModal={handleOpenModal}
           />
         </div>
-        <div id="Начинки">
+        <div id="Начинки" className="section">
           <TypeOfIngredients
             header="Начинки"
-            type="main"
-            getElementByType={getElementByType}
-            ingredientsData={ingredientsData}
+            ingredients={mains}
+            handleOpenModal={handleOpenModal}
           />
         </div>
       </div>

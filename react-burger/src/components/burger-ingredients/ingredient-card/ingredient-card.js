@@ -12,9 +12,7 @@ import {
   ADD_INGREDIENT,
 } from "../../../services/actions/add-ingredient";
 
-function IngredientCard(props) {
-  const { ingredient, handleOpenModal } = props;
-
+function IngredientCard({ ingredient, handleOpenModal }) {
   const dispatch = useDispatch();
   const addIngredient = () => {
     dispatch({
