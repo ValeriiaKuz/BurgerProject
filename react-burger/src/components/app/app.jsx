@@ -1,45 +1,60 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import AppHeader from "../app-header/app-header";
 import ComponentWrapper from "../main-components-wrapper/component-wrapper";
 import style from "./app.module.css";
-import { IngredientsContext } from "../../services/ingredients-context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  GET_INGREDIENTS_DATA,
+  GET_INGREDIENTS_DATA_FAILED,
+  GET_INGREDIENTS_DATA_SUCCESS,
+} from "../../services/actions/get-ingredients";
+import { PUBLIC_URL } from "../../utils/URL";
 
 const App = () => {
-  const URL = "https://norma.nomoreparties.space/api/ingredients";
-  const [ingredientsData, setIngredientsData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  useEffect(() => {
-    const getIngredientsData = async () => {
-      try {
-        const res = await fetch(URL);
-        if (!res.ok) {
-          throw new Error(`Ошибка запроса ${res.status}`);
-        }
-        const data = await res.json();
-        setIngredientsData(data.data);
-      } catch (err) {
-        console.log(err.message);
-        alert(err.message);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
+  const getIngredientsData = () => {
+    return function (dispatch) {
+      dispatch({
+        type: GET_INGREDIENTS_DATA,
+      });
+      fetch(`${PUBLIC_URL}ingredients`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`Ошибка запроса ${res.status}`);
+          else return res.json();
+        })
+        .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: GET_INGREDIENTS_DATA_SUCCESS,
+              ingredientsData: res.data,
+            });
+          } else {
+            dispatch({
+              type: GET_INGREDIENTS_DATA_FAILED,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+          alert(err.message);
+          dispatch({
+            type: GET_INGREDIENTS_DATA_FAILED,
+          });
+        });
     };
-    getIngredientsData();
+  };
+
+  const { isLoading, isError } = useSelector((store) => store.ingredients);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredientsData());
   }, []);
 
-  const value = useMemo(() => {
-    return { ingredientsData };
-  }, [ingredientsData]);
   return (
     <div className={style.wrapper}>
       <AppHeader />
       {isLoading && <span> Загрузка </span>}
       {isError && <span> Ошибка: что-то пошло не так. </span>}
-      <IngredientsContext.Provider value={value}>
-        {!isLoading && !isError && <ComponentWrapper />}
-      </IngredientsContext.Provider>
+      {!isLoading && !isError && <ComponentWrapper />}
     </div>
   );
 };

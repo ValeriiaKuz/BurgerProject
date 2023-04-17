@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import style from "./component-wrapper.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderPrice from "../burger-constructor/order-price/order-price";
@@ -6,46 +6,30 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import OrderDetails from "../burger-constructor/order-details/order-details";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  GET_ORDER_NUMBER,
+  GET_ORDER_NUMBER_FAILED,
+  GET_ORDER_NUMBER_SUCCESS,
+} from "../../services/actions/order-number";
+import { PUBLIC_URL } from "../../utils/URL";
 
 const ComponentWrapper = () => {
-  const [addedIngredients, getAddedIngredients] = useState([]);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const handleOpenModal = () => {
-    setIsOpenModal(true);
-  };
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
-  };
-
-  const orderPriceInitialState = { orderPrice: 0 };
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case "bun":
-        return { orderPrice: state.orderPrice + action.ingredient.price * 2 };
-      case "another":
-        return { orderPrice: state.orderPrice + action.ingredient.price };
-      default:
-        throw new Error(`Wrong type of action: ${action.type}`);
-    }
-  }
-
-  const [orderPriceState, orderPriceDispatcher] = useReducer(
-    reducer,
-    orderPriceInitialState,
-    undefined
+  const addedIngredients = useSelector(
+    (store) => store.addedIngredients.addedIngredients
   );
-  const [orderID, setOrderId] = useState(null);
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const getOrderId = async () => {
+  const { isLoading, isError } = useSelector((store) => store.orderNumber);
+  const dispatch = useDispatch();
+  const getOrderNumber = () => {
     let idArray = [];
     for (let i = 0; i < addedIngredients.length; i++) {
       idArray.push(addedIngredients[i]._id);
     }
-    try {
-      let res = await fetch("https://norma.nomoreparties.space/api/orders", {
+    return function (dispatch) {
+      dispatch({
+        type: GET_ORDER_NUMBER,
+      });
+      fetch(`${PUBLIC_URL}orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -53,40 +37,54 @@ const ComponentWrapper = () => {
         body: JSON.stringify({
           ingredients: idArray,
         }),
-      });
-      if (!res.ok) {
-        throw new Error(`Ошибка запроса ${res.status}`);
-      }
-      let result = await res.json();
-      setOrderId(result.order.number);
-      setIsError(false);
-    } catch (err) {
-      console.log(err.message);
-      alert(err.message);
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(`Ошибка запроса ${res.status}`);
+          else return res.json();
+        })
+        .then((res) => {
+          if (res && res.success) {
+            dispatch({
+              type: GET_ORDER_NUMBER_SUCCESS,
+              orderNumber: res.order.number,
+            });
+          } else {
+            dispatch({
+              type: GET_ORDER_NUMBER_FAILED,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+          alert(err.message);
+          dispatch({
+            type: GET_ORDER_NUMBER_FAILED,
+          });
+        });
+    };
   };
 
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const handleOpenModal = () => {
+    setIsOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+  };
   return (
     <main>
       <h1 className="text text_type_main-large mt-5 mb-5">Соберите бургер</h1>
       <section className={style.ingredients}>
-        <BurgerIngredients
-          getAddedIngredients={getAddedIngredients}
-          orderPriceDispatcher={orderPriceDispatcher}
-        />
+        <BurgerIngredients />
       </section>
       <section className={style.order}>
-        <BurgerConstructor addedIngredients={addedIngredients} />
+        <BurgerConstructor />
         <div className={style.orderPrice + " " + "pr-4 pt-10"}>
-          <OrderPrice orderPrice={orderPriceState.orderPrice} />
+          <OrderPrice />
           <Button
             onClick={() => {
               handleOpenModal();
-              setOrderId(null);
-              getOrderId();
+              dispatch(getOrderNumber());
             }}
             htmlType="button"
             type="primary"
@@ -101,9 +99,7 @@ const ComponentWrapper = () => {
                   <div className="m-5"> Ошибка: что-то пошло не так.</div>
                 )}
                 {isLoading && <div className="m-5"> Загрузка</div>}
-                {!isError && !isLoading && orderID && (
-                  <OrderDetails orderID={orderID} />
-                )}
+                {!isError && !isLoading && <OrderDetails />}
               </div>
             </Modal>
           )}

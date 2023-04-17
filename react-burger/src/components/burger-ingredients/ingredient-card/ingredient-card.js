@@ -6,17 +6,26 @@ import React, { useState } from "react";
 import style from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/propTypes";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+} from "../../../services/actions/add-ingredient";
 
 function IngredientCard(props) {
-  const {
-    ingredient,
-    addedIngredient,
-    getAddedIngredient,
-    bunAdded,
-    setBunAdded,
-    handleOpenModal,
-    orderPriceDispatcher,
-  } = props;
+  const { ingredient, handleOpenModal } = props;
+
+  const dispatch = useDispatch();
+  const addIngredient = () => {
+    dispatch({
+      type: ADD_INGREDIENT,
+      addedIngredient: ingredient,
+    });
+  };
+  const setBunAdd = () => {
+    dispatch({ type: ADD_BUN });
+  };
+  const bunAdded = useSelector((store) => store.addedIngredients.bunAdded);
   const [count, setCount] = useState(0);
   return (
     <div>
@@ -26,21 +35,13 @@ function IngredientCard(props) {
           handleOpenModal(ingredient);
           if (ingredient.type === "bun") {
             if (bunAdded === false) {
-              setCount(1);
-              setBunAdded(true);
-              getAddedIngredient([...addedIngredient, ingredient]);
-              orderPriceDispatcher({
-                type: "bun",
-                ingredient: ingredient,
-              });
+              setCount(2);
+              setBunAdd();
+              addIngredient();
             }
           } else if (ingredient.type !== "bun") {
             setCount(count + 1);
-            getAddedIngredient([...addedIngredient, ingredient]);
-            orderPriceDispatcher({
-              type: "another",
-              ingredient: ingredient,
-            });
+            addIngredient();
           }
         }}
       >
@@ -62,11 +63,6 @@ function IngredientCard(props) {
 
 IngredientCard.propTypes = {
   ingredient: ingredientPropTypes.isRequired,
-  addedIngredient: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  getAddedIngredient: PropTypes.func.isRequired,
-  bunAdded: PropTypes.bool.isRequired,
-  setBunAdded: PropTypes.func.isRequired,
   handleOpenModal: PropTypes.func.isRequired,
-  orderPriceDispatcher: PropTypes.func.isRequired,
 };
-export default IngredientCard;
+export default React.memo(IngredientCard);

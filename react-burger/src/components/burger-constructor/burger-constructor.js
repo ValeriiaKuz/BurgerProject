@@ -5,8 +5,13 @@ import {
 import style from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../utils/propTypes";
+import { useSelector } from "react-redux";
 
-const BurgerConstructor = ({ addedIngredients }) => {
+const BurgerConstructor = () => {
+  const addedIngredients = useSelector(
+    (store) => store.addedIngredients.addedIngredients
+  );
+
   const bunElementTop = addedIngredients.map((ingredient) => {
     if (ingredient.type === "bun") {
       return (
@@ -60,7 +65,7 @@ const BurgerConstructor = ({ addedIngredients }) => {
     </div>
   );
 };
-BurgerConstructor.propTypes = {
-  addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-};
+// BurgerConstructor.propTypes = {
+//   addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+// };
 export default BurgerConstructor;
