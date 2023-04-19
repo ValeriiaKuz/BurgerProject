@@ -3,9 +3,12 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../utils/propTypes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import {
+  addIngredientAC,
+  DELETE_INGREDIENT,
+} from "../../services/actions/add-ingredient";
 
 const BurgerConstructor = () => {
   const addedIngredients = useSelector(
@@ -26,6 +29,10 @@ const BurgerConstructor = () => {
       );
     }
   });
+
+  const deleteIngredient = (id) => {
+    dispatch({ type: DELETE_INGREDIENT, id: id });
+  };
   const sauceAndMain = addedIngredients.map((ingredient, index) => {
     if (ingredient.type !== "bun") {
       return (
@@ -35,6 +42,9 @@ const BurgerConstructor = () => {
             text={ingredient.name}
             price={ingredient.price}
             thumbnail={ingredient.image}
+            handleClose={() => {
+              deleteIngredient(ingredient.id);
+            }}
           />
         </div>
       );
@@ -54,9 +64,16 @@ const BurgerConstructor = () => {
       );
     }
   });
+  const dispatch = useDispatch();
+  const [, dropRef] = useDrop({
+    accept: "ingredient",
+    drop: (item) => {
+      dispatch(addIngredientAC(item.ingredient));
+    },
+  });
 
   return (
-    <div className={style.constructorWrapper}>
+    <div className={style.constructorWrapper} ref={dropRef}>
       <div className={`${style.bunWrapper} mt-4 mb-4`}>{bunElementTop}</div>
       <div className={`${style.wrapper} ${style.customScroll}`}>
         <div className={`${style.addedIngredients} pr-4`}>{sauceAndMain}</div>
@@ -65,7 +82,5 @@ const BurgerConstructor = () => {
     </div>
   );
 };
-// BurgerConstructor.propTypes = {
-//   addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-// };
+
 export default BurgerConstructor;

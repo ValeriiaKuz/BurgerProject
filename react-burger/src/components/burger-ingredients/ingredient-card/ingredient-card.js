@@ -2,45 +2,55 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React from "react";
 import style from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/propTypes";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_BUN,
-  ADD_INGREDIENT,
-} from "../../../services/actions/add-ingredient";
+import { addIngredientAC } from "../../../services/actions/add-ingredient";
+import { useDrag } from "react-dnd";
 
 function IngredientCard({ ingredient, handleOpenModal }) {
+  const addedIngredients = useSelector(
+    (store) => store.addedIngredients.addedIngredients
+  );
+  const countTotal = () => {
+    let count = 0;
+    for (let i = 0; i < addedIngredients.length; i++) {
+      if (addedIngredients[i]._id === ingredient._id) {
+        if (ingredient.type === "bun") {
+          count = count + 2;
+        } else {
+          count = count + 1;
+        }
+      }
+    }
+    return count;
+  };
+
+  const count = countTotal();
+
   const dispatch = useDispatch();
-  const addIngredient = () => {
-    dispatch({
-      type: ADD_INGREDIENT,
-      addedIngredient: ingredient,
-    });
+  const addIngredient = (ingredient) => {
+    dispatch(addIngredientAC(ingredient));
   };
-  const setBunAdd = () => {
-    dispatch({ type: ADD_BUN });
-  };
-  const bunAdded = useSelector((store) => store.addedIngredients.bunAdded);
-  const [count, setCount] = useState(0);
+
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "ingredient",
+    item: { ingredient },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  const opacity = isDragging ? 0.4 : 1;
+
   return (
-    <div>
+    <div ref={dragRef} style={{ opacity }}>
       <div
         className={style.card}
         onClick={() => {
           handleOpenModal(ingredient);
-          if (ingredient.type === "bun") {
-            if (bunAdded === false) {
-              setCount(2);
-              setBunAdd();
-              addIngredient();
-            }
-          } else if (ingredient.type !== "bun") {
-            setCount(count + 1);
-            addIngredient();
-          }
+          addIngredient(ingredient);
         }}
       >
         <img className="pl-4 pr-4" src={ingredient.image} alt={"Ингредиент"} />

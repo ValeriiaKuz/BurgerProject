@@ -12,6 +12,7 @@ const TypeOfIngredients = ({ header, ingredients, handleOpenModal }) => {
           return (
             <IngredientCard
               key={ingredient._id}
+              draggable
               ingredient={ingredient}
               handleOpenModal={handleOpenModal}
             />

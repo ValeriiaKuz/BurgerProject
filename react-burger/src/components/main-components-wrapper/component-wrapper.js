@@ -13,6 +13,8 @@ import {
   GET_ORDER_NUMBER_SUCCESS,
 } from "../../services/actions/order-number";
 import { PUBLIC_URL } from "../../utils/URL";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const ComponentWrapper = () => {
   const addedIngredients = useSelector(
@@ -71,40 +73,43 @@ const ComponentWrapper = () => {
   const handleCloseModal = () => {
     setIsOpenModal(false);
   };
+
   return (
     <main>
       <h1 className="text text_type_main-large mt-5 mb-5">Соберите бургер</h1>
-      <section className={style.ingredients}>
-        <BurgerIngredients />
-      </section>
-      <section className={style.order}>
-        <BurgerConstructor />
-        <div className={style.orderPrice + " " + "pr-4 pt-10"}>
-          <OrderPrice />
-          <Button
-            onClick={() => {
-              handleOpenModal();
-              dispatch(getOrderNumber());
-            }}
-            htmlType="button"
-            type="primary"
-            size="medium"
-          >
-            Оформить заказ
-          </Button>
-          {isOpenModal && (
-            <Modal onClose={handleCloseModal}>
-              <div>
-                {isError && (
-                  <div className="m-5"> Ошибка: что-то пошло не так.</div>
-                )}
-                {isLoading && <div className="m-5"> Загрузка</div>}
-                {!isError && !isLoading && <OrderDetails />}
-              </div>
-            </Modal>
-          )}
-        </div>
-      </section>
+      <DndProvider backend={HTML5Backend}>
+        <section className={style.ingredients}>
+          <BurgerIngredients />
+        </section>
+        <section className={style.order}>
+          <BurgerConstructor />
+          <div className={style.orderPrice + " " + "pr-4 pt-10"}>
+            <OrderPrice />
+            <Button
+              onClick={() => {
+                handleOpenModal();
+                dispatch(getOrderNumber());
+              }}
+              htmlType="button"
+              type="primary"
+              size="medium"
+            >
+              Оформить заказ
+            </Button>
+            {isOpenModal && (
+              <Modal onClose={handleCloseModal}>
+                <div>
+                  {isError && (
+                    <div className="m-5"> Ошибка: что-то пошло не так.</div>
+                  )}
+                  {isLoading && <div className="m-5"> Загрузка</div>}
+                  {!isError && !isLoading && <OrderDetails />}
+                </div>
+              </Modal>
+            )}
+          </div>
+        </section>
+      </DndProvider>
     </main>
   );
 };
