@@ -103,5 +103,4 @@ const BurgerIngredients = () => {
     </div>
   );
 };
-
 export default BurgerIngredients;

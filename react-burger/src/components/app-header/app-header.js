@@ -5,6 +5,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./app-header.module.css";
+
 function AppHeader() {
   return (
     <header className={`${style.header} pt-4 pb-4 m-5`}>

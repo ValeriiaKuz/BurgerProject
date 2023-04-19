@@ -24,5 +24,4 @@ const OrderDetails = () => {
     </div>
   );
 };
-
 export default OrderDetails;

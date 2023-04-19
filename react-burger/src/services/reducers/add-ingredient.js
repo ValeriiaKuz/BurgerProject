@@ -17,7 +17,10 @@ export const addIngredientReducer = (state = initialState, action) => {
                   ? { ...action.payload.ingredient, id: action.payload.id }
                   : ing
               )
-            : [{ ...action.payload.ingredient, id: action.payload.id }]
+            : [
+                ...state.addedIngredients,
+                { ...action.payload.ingredient, id: action.payload.id },
+              ]
           : [
               ...state.addedIngredients,
               { ...action.payload.ingredient, id: action.payload.id },

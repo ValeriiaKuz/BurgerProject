@@ -12,7 +12,7 @@ import {
   GET_ORDER_NUMBER_FAILED,
   GET_ORDER_NUMBER_SUCCESS,
 } from "../../services/actions/order-number";
-import { PUBLIC_URL } from "../../utils/URL";
+import { PUBLIC_URL } from "../../utils/API";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 

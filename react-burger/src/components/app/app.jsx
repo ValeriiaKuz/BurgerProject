@@ -8,7 +8,7 @@ import {
   GET_INGREDIENTS_DATA_FAILED,
   GET_INGREDIENTS_DATA_SUCCESS,
 } from "../../services/actions/get-ingredients";
-import { PUBLIC_URL } from "../../utils/URL";
+import { PUBLIC_URL } from "../../utils/API";
 
 const App = () => {
   const getIngredientsData = () => {

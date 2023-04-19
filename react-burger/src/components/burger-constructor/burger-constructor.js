@@ -1,7 +1,4 @@
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
@@ -9,11 +6,23 @@ import {
   addIngredientAC,
   DELETE_INGREDIENT,
 } from "../../services/actions/add-ingredient";
+import MainSauceElement from "./main-sauce-element/main-sauce-element";
+import { useCallback, useEffect, useState } from "react";
 
 const BurgerConstructor = () => {
   const addedIngredients = useSelector(
     (store) => store.addedIngredients.addedIngredients
   );
+  const dispatch = useDispatch();
+  const [, dropRef] = useDrop({
+    accept: "ingredient",
+    drop: (item) => {
+      dispatch(addIngredientAC(item.ingredient));
+    },
+  });
+  const deleteIngredient = (id) => {
+    dispatch({ type: DELETE_INGREDIENT, id: id });
+  };
 
   const bunElementTop = addedIngredients.map((ingredient) => {
     if (ingredient.type === "bun") {
@@ -30,23 +39,35 @@ const BurgerConstructor = () => {
     }
   });
 
-  const deleteIngredient = (id) => {
-    dispatch({ type: DELETE_INGREDIENT, id: id });
-  };
-  const sauceAndMain = addedIngredients.map((ingredient, index) => {
+  const [ingredients, setIngredients] = useState(addedIngredients);
+  useEffect(() => {
+    setIngredients(addedIngredients);
+  }, [addedIngredients]);
+
+  const moveListItem = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragItem = ingredients[dragIndex];
+      const hoverItem = ingredients[hoverIndex];
+
+      setIngredients((ingredients) => {
+        const updatedIngredients = [...ingredients];
+        updatedIngredients[dragIndex] = hoverItem;
+        updatedIngredients[hoverIndex] = dragItem;
+        return updatedIngredients;
+      });
+    },
+    [ingredients]
+  );
+  const sauceAndMain = ingredients.map((ingredient, index) => {
     if (ingredient.type !== "bun") {
       return (
-        <div className={style.withIcon} key={index}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text={ingredient.name}
-            price={ingredient.price}
-            thumbnail={ingredient.image}
-            handleClose={() => {
-              deleteIngredient(ingredient.id);
-            }}
-          />
-        </div>
+        <MainSauceElement
+          ingredient={ingredient}
+          deleteIngredient={deleteIngredient}
+          key={ingredient.id}
+          index={index}
+          moveListItem={moveListItem}
+        />
       );
     }
   });
@@ -63,13 +84,6 @@ const BurgerConstructor = () => {
         />
       );
     }
-  });
-  const dispatch = useDispatch();
-  const [, dropRef] = useDrop({
-    accept: "ingredient",
-    drop: (item) => {
-      dispatch(addIngredientAC(item.ingredient));
-    },
   });
 
   return (
