@@ -1,5 +1,5 @@
 import style from "./burger-ingredients.module.css";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import TypeOfIngredients from "./type-of-ingredients/type-of-ingredients";
 import Modal from "../modal/modal";
@@ -32,19 +32,21 @@ const BurgerIngredients = () => {
   const handleCloseModal = () => {
     dispatch({ type: CLOSE_INGREDIENT });
   };
+  const { sauces, buns, mains } = useMemo(() => {
+    const sauces = ingredientsData.filter(
+      (ingredient) => ingredient.type === "sauce"
+    );
+    const buns = ingredientsData.filter(
+      (ingredient) => ingredient.type === "bun"
+    );
+    const mains = ingredientsData.filter(
+      (ingredient) => ingredient.type === "main"
+    );
+    return { sauces, buns, mains };
+  }, [ingredientsData]);
 
-  const sauces = useMemo(
-    () => ingredientsData.filter((ingredient) => ingredient.type === "sauce"),
-    [ingredientsData]
-  );
-  const buns = useMemo(
-    () => ingredientsData.filter((ingredient) => ingredient.type === "bun"),
-    [ingredientsData]
-  );
-  const mains = useMemo(
-    () => ingredientsData.filter((ingredient) => ingredient.type === "main"),
-    [ingredientsData]
-  );
+  const wrapperRef = useRef(null);
+  const sectionsRef = useRef([]);
 
   useEffect(() => {
     const callback = (entries) => {
@@ -55,13 +57,13 @@ const BurgerIngredients = () => {
       });
     };
     const options = {
-      root: document.getElementById("wrapper"),
+      root: wrapperRef.current,
       rootMargin: "0px 0px -90% 0px",
       threshold: 0,
     };
     const observer = new IntersectionObserver(callback, options);
-    const sections = document.querySelectorAll(".section");
-    sections.forEach((section) => {
+
+    sectionsRef.current.forEach((section) => {
       observer.observe(section);
     });
   }, []);
@@ -76,23 +78,23 @@ const BurgerIngredients = () => {
       <IngredientsTab getTabId={getTabId} tabId={tabId} />
       <div
         className={`${style.cardsWrapper} ${style.customScroll}`}
-        id="wrapper"
+        ref={wrapperRef}
       >
-        <div id="Булки" className="section">
+        <div id="Булки" ref={(el) => (sectionsRef.current[0] = el)}>
           <TypeOfIngredients
             header="Булки"
             ingredients={buns}
             handleOpenModal={handleOpenModal}
           />
         </div>
-        <div id="Соусы" className="section">
+        <div id="Соусы" ref={(el) => (sectionsRef.current[1] = el)}>
           <TypeOfIngredients
             header="Соусы"
             ingredients={sauces}
             handleOpenModal={handleOpenModal}
           />
         </div>
-        <div id="Начинки" className="section">
+        <div id="Начинки" ref={(el) => (sectionsRef.current[2] = el)}>
           <TypeOfIngredients
             header="Начинки"
             ingredients={mains}

@@ -7,12 +7,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import OrderDetails from "../burger-constructor/order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  GET_ORDER_NUMBER,
-  GET_ORDER_NUMBER_FAILED,
-  GET_ORDER_NUMBER_SUCCESS,
-} from "../../services/actions/order-number";
-import { PUBLIC_URL } from "../../utils/API";
+import { getOrderNumber } from "../../services/actions/order-number";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -22,48 +17,13 @@ const ComponentWrapper = () => {
   );
   const { isLoading, isError } = useSelector((store) => store.orderNumber);
   const dispatch = useDispatch();
-  const getOrderNumber = () => {
-    let idArray = [];
-    for (let i = 0; i < addedIngredients.length; i++) {
-      idArray.push(addedIngredients[i]._id);
-    }
-    return function (dispatch) {
-      dispatch({
-        type: GET_ORDER_NUMBER,
-      });
-      fetch(`${PUBLIC_URL}orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify({
-          ingredients: idArray,
-        }),
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error(`Ошибка запроса ${res.status}`);
-          else return res.json();
-        })
-        .then((res) => {
-          if (res && res.success) {
-            dispatch({
-              type: GET_ORDER_NUMBER_SUCCESS,
-              orderNumber: res.order.number,
-            });
-          } else {
-            dispatch({
-              type: GET_ORDER_NUMBER_FAILED,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-          alert(err.message);
-          dispatch({
-            type: GET_ORDER_NUMBER_FAILED,
-          });
-        });
-    };
+
+  const handleOrderClick = () => {
+    const idArray = [
+      ...addedIngredients.map((ingredient) => ingredient._id),
+      addedIngredients[0]._id,
+    ];
+    dispatch(getOrderNumber(idArray));
   };
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -88,8 +48,12 @@ const ComponentWrapper = () => {
             <Button
               onClick={() => {
                 handleOpenModal();
-                dispatch(getOrderNumber());
+                handleOrderClick();
               }}
+              disabled={
+                !addedIngredients.find((i) => i.type === "bun") ||
+                !addedIngredients.find((i) => i.type !== "bun")
+              }
               htmlType="button"
               type="primary"
               size="medium"

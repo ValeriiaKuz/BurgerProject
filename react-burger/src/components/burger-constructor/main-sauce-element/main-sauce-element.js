@@ -49,7 +49,7 @@ const MainSauceElement = ({
         price={ingredient.price}
         thumbnail={ingredient.image}
         handleClose={() => {
-          deleteIngredient(ingredient.id);
+          deleteIngredient(ingredient.id, ingredient.price);
         }}
       />
     </div>

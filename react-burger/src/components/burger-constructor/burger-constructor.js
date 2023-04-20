@@ -5,14 +5,21 @@ import { useDrop } from "react-dnd";
 import {
   addIngredientAC,
   DELETE_INGREDIENT,
+  SORT_INGREDIENTS,
 } from "../../services/actions/add-ingredient";
 import MainSauceElement from "./main-sauce-element/main-sauce-element";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 const BurgerConstructor = () => {
   const addedIngredients = useSelector(
     (store) => store.addedIngredients.addedIngredients
   );
+  const { bun, ingredients } = useMemo(() => {
+    const bun = addedIngredients.find((item) => item.type === "bun");
+    const ingredients = addedIngredients.filter((item) => item.type !== "bun");
+    return { bun, ingredients };
+  }, [addedIngredients]);
+
   const dispatch = useDispatch();
   const [, dropRef] = useDrop({
     accept: "ingredient",
@@ -20,79 +27,69 @@ const BurgerConstructor = () => {
       dispatch(addIngredientAC(item.ingredient));
     },
   });
-  const deleteIngredient = (id) => {
-    dispatch({ type: DELETE_INGREDIENT, id: id });
+  const deleteIngredient = (id, price) => {
+    dispatch({ type: DELETE_INGREDIENT, id: id, price: price });
   };
-
-  const bunElementTop = addedIngredients.map((ingredient) => {
-    if (ingredient.type === "bun") {
-      return (
-        <ConstructorElement
-          key={ingredient._id}
-          type="top"
-          isLocked={true}
-          text={ingredient.name + "  (верх)"}
-          price={ingredient.price}
-          thumbnail={ingredient.image}
-        />
-      );
-    }
-  });
-
-  const [ingredients, setIngredients] = useState(addedIngredients);
-  useEffect(() => {
-    setIngredients(addedIngredients);
-  }, [addedIngredients]);
 
   const moveListItem = useCallback(
     (dragIndex, hoverIndex) => {
       const dragItem = ingredients[dragIndex];
       const hoverItem = ingredients[hoverIndex];
 
-      setIngredients((ingredients) => {
-        const updatedIngredients = [...ingredients];
-        updatedIngredients[dragIndex] = hoverItem;
-        updatedIngredients[hoverIndex] = dragItem;
-        return updatedIngredients;
+      const updatedIngredients = [...ingredients];
+
+      updatedIngredients[dragIndex] = hoverItem;
+      updatedIngredients[hoverIndex] = dragItem;
+      dispatch({
+        type: SORT_INGREDIENTS,
+        bun: bun ? bun : null,
+        ingredients: updatedIngredients,
       });
     },
-    [ingredients]
+    [bun, ingredients, dispatch]
   );
+
   const sauceAndMain = ingredients.map((ingredient, index) => {
-    if (ingredient.type !== "bun") {
-      return (
-        <MainSauceElement
-          ingredient={ingredient}
-          deleteIngredient={deleteIngredient}
-          key={ingredient.id}
-          index={index}
-          moveListItem={moveListItem}
-        />
-      );
-    }
-  });
-  const bunElementBottom = addedIngredients.map((ingredient) => {
-    if (ingredient.type === "bun") {
-      return (
-        <ConstructorElement
-          key={ingredient._id}
-          type="bottom"
-          isLocked={true}
-          text={ingredient.name + "  (низ)"}
-          price={ingredient.price}
-          thumbnail={ingredient.image}
-        />
-      );
-    }
+    return (
+      <MainSauceElement
+        ingredient={ingredient}
+        deleteIngredient={deleteIngredient}
+        key={ingredient.id}
+        index={index}
+        moveListItem={moveListItem}
+      />
+    );
   });
 
   return (
     <div className={style.constructorWrapper} ref={dropRef}>
-      <div className={`${style.bunWrapper} mt-4 mb-4`}>{bunElementTop}</div>
+      <div className={`${style.bunWrapper} mt-4 mb-4`}>
+        {bun && (
+          <ConstructorElement
+            key={bun._id}
+            type="top"
+            isLocked={true}
+            text={bun.name + "  (верх)"}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        )}
+      </div>
       <div className={`${style.wrapper} ${style.customScroll}`}>
         <div className={`${style.addedIngredients} pr-4`}>{sauceAndMain}</div>
       </div>
-      <div className={`${style.bunWrapper} mt-4`}>{bunElementBottom}</div>
+      <div className={`${style.bunWrapper} mt-4`}>
+        {bun && (
+          <ConstructorElement
+            key={bun._id}
+            type="bottom"
+            isLocked={true}
+            text={bun.name + "  (низ)"}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -13,33 +13,33 @@ function AppHeader() {
         <nav className={style.nav}>
           <ul className={style.navList}>
             <li className={`pr-5 ${style.navItem}`}>
-              <BurgerIcon type={"primary"} />
               <a
                 href="#"
                 className={`${style.navLink} text text_type_main-default`}
               >
-                Конструктор
+                <BurgerIcon type={"primary"} />
+                <span className={`pl-2 ${style.active}`}>Конструктор</span>
               </a>
             </li>
             <li className={`pl-5 pr-5  ${style.navItem}`}>
-              <ListIcon type="secondary" />
               <a
                 href="#"
                 className={`text text_type_main-default ${style.navLink}`}
               >
-                Лента заказов
+                <ListIcon type="secondary" />
+                <span className="pl-2">Лента заказов</span>
               </a>
             </li>
           </ul>
         </nav>
         <Logo className={style.logo} />
         <div className={`${style.profile} pb-4 pt-4`}>
-          <ProfileIcon type="secondary" />
           <a
             href="#"
             className={`text text_type_main-default text_color_inactive ${style.navLink}`}
           >
-            Личный кабинет
+            <ProfileIcon type="secondary" />
+            <span className="pl-2">Личный кабинет</span>
           </a>
         </div>
       </div>

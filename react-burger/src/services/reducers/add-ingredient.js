@@ -1,37 +1,50 @@
-import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../actions/add-ingredient";
+import {
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  SORT_INGREDIENTS,
+} from "../actions/add-ingredient";
 
 const initialState = {
   addedIngredients: [],
   orderPrice: 0,
 };
-
-//Тут происходит безумие, но ничего другого я не придумала
+// Код не стал короче, но вроде бы стал более читабельный. Танцы с бубном по добавлению булок в начало, а то у меня ломается сортировка. Другого решения не смогла придумать:(
 export const addIngredientReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
-      const addedIngredients =
-        action.payload.ingredient.type === "bun"
-          ? state.addedIngredients.some((i) => i.type === "bun")
-            ? state.addedIngredients.map((ing) =>
-                ing.type === action.payload.ingredient.type
-                  ? { ...action.payload.ingredient, id: action.payload.id }
-                  : ing
-              )
-            : [
-                ...state.addedIngredients,
-                { ...action.payload.ingredient, id: action.payload.id },
-              ]
-          : [
-              ...state.addedIngredients,
-              { ...action.payload.ingredient, id: action.payload.id },
-            ];
-      const price =
-        action.payload.ingredient.type === "bun"
-          ? state.addedIngredients.some((i) => i.type === "bun")
-            ? action.payload.ingredient.price * 2 -
-              2 * state.addedIngredients.find((ing) => ing.type === "bun").price
-            : action.payload.ingredient.price * 2
-          : action.payload.ingredient.price;
+      const { ingredient, id } = action.payload;
+
+      let addedIngredients;
+      if (ingredient.type === "bun") {
+        if (state.addedIngredients.some((i) => i.type === "bun")) {
+          addedIngredients = state.addedIngredients.map((ing) =>
+            ing.type === ingredient.type ? { ...ingredient, id: id } : ing
+          );
+        } else {
+          addedIngredients = [
+            { ...ingredient, id: id },
+            ...state.addedIngredients,
+          ];
+        }
+      } else {
+        addedIngredients = [
+          ...state.addedIngredients,
+          { ...ingredient, id: id },
+        ];
+      }
+
+      let price;
+      if (ingredient.type === "bun") {
+        if (state.addedIngredients.some((i) => i.type === "bun")) {
+          price =
+            ingredient.price * 2 -
+            2 * state.addedIngredients.find((ing) => ing.type === "bun").price;
+        } else {
+          price = ingredient.price * 2;
+        }
+      } else {
+        price = ingredient.price;
+      }
 
       return {
         ...state,
@@ -42,12 +55,20 @@ export const addIngredientReducer = (state = initialState, action) => {
     case DELETE_INGREDIENT: {
       return {
         ...state,
-        addedIngredients: [...state.addedIngredients].filter(
+        addedIngredients: state.addedIngredients.filter(
           (item) => item.id !== action.id
         ),
+        orderPrice: state.orderPrice - action.price,
       };
     }
-
+    case SORT_INGREDIENTS: {
+      return {
+        ...state,
+        addedIngredients: action.bun
+          ? [action.bun, ...action.ingredients]
+          : [...action.ingredients],
+      };
+    }
     default: {
       return state;
     }

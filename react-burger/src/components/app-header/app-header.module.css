@@ -34,6 +34,9 @@
   text-decoration: none;
   color: var(--text-inactive-color);
 }
+.active{
+  color: var(--text-primary-color)
+}
 
 .navLink:hover,
 .navLink:active {

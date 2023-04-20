@@ -4,7 +4,7 @@ import {
 } from "../actions/opened-ingredient";
 
 const initialState = {
-  openedIngredient: {},
+  openedIngredient: null,
   isOpenModal: false,
 };
 
@@ -18,7 +18,7 @@ export const openedIngredientReducer = (state = initialState, action) => {
     }
     case CLOSE_INGREDIENT: {
       return {
-        openedIngredient: {},
+        openedIngredient: null,
         isOpenModal: false,
       };
     }
