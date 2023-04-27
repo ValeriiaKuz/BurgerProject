@@ -1,70 +1,108 @@
-import style from './burger-ingredients.module.css'
-import React, {useEffect, useState} from "react";
-import IngredientCard from "./ingredient-card/ingredient-card";
+import style from "./burger-ingredients.module.css";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/propTypes";
 import TypeOfIngredients from "./type-of-ingredients/type-of-ingredients";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  CLOSE_INGREDIENT,
+  OPEN_INGREDIENT,
+} from "../../services/actions/opened-ingredient";
 
-const BurgerIngredients = (props) => {
-    const [addedIngredient, getAddedIngredient] = useState([])
-    const [tabId, getTabId] = useState("Булки")
-    const [bunAdded, setBunAdded] = useState(false)
-    const [isOpenModal, setIsOpenModal] = useState(false)
-    const [openedIngredient, setOpenedIngredient] = useState({})
+const BurgerIngredients = () => {
+  const [tabId, getTabId] = useState("Булки");
+  const ingredientsData = useSelector(
+    (store) => store.ingredients.ingredientsData
+  );
+  const { openedIngredient, isOpenModal } = useSelector(
+    (store) => store.openedIngredient
+  );
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        props.getAddedIngredients(addedIngredient)
-    }, [addedIngredient])
-    useEffect(() => {
-        document.getElementById(tabId).scrollIntoView({behavior: "smooth", block: "start"})
-    }, [tabId])
-    const getElementByType = (type, ingredientsData) => {
-        return ingredientsData.map(ingredient => {
-            if (ingredient.type === type) {
-                return (<IngredientCard key={ingredient._id} ingredient={ingredient} addedIngredient={addedIngredient}
-                                        getAddedIngredient={getAddedIngredient} bunAdded={bunAdded}
-                                        setBunAdded={setBunAdded} handleOpenModal={handleOpenModal}/>)
-            }
-        })
-    }
-    const handleOpenModal = (ingredient) => {
-        setIsOpenModal(true)
-        setOpenedIngredient(ingredient)
-    }
-    const handleCloseModal = () => {
-        setIsOpenModal(false)
-    }
+  useEffect(() => {
+    document
+      .getElementById(tabId)
+      .scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [tabId]);
 
-    return (
-        <div className={style.wrapper}>
-            {isOpenModal &&
-                <Modal onClose={handleCloseModal} header={'Детали ингредиента'}>
-                    <IngredientDetails ingredient={openedIngredient}/>
-                </Modal>
-            }
-            <IngredientsTab getTabId={getTabId}/>
-            <div className={`${style.cardsWrapper} ${style.customScroll}`}>
-                <div id="Булки">
-                    <TypeOfIngredients header='Булки' type='bun' getElementByType={getElementByType}
-                                       ingredientsData={props.ingredientsData}/>
-                </div>
-                <div id="Соусы">
-                    <TypeOfIngredients header='Соусы' type='sauce' getElementByType={getElementByType}
-                                       ingredientsData={props.ingredientsData}/>
-                </div>
-                <div id="Начинки">
-                    <TypeOfIngredients header='Начинки' type='main' getElementByType={getElementByType}
-                                       ingredientsData={props.ingredientsData}/>
-                </div>
-            </div>
-        </div>)
-}
-BurgerIngredients.propTypes = {
-    ingredientsData: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-    getAddedIngredients: PropTypes.func.isRequired,
-    addedIngredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
-}
-export default BurgerIngredients
+  const handleOpenModal = (ingredient) => {
+    dispatch({ type: OPEN_INGREDIENT, ingredient });
+  };
+  const handleCloseModal = () => {
+    dispatch({ type: CLOSE_INGREDIENT });
+  };
+  const { sauces, buns, mains } = useMemo(() => {
+    const sauces = ingredientsData.filter(
+      (ingredient) => ingredient.type === "sauce"
+    );
+    const buns = ingredientsData.filter(
+      (ingredient) => ingredient.type === "bun"
+    );
+    const mains = ingredientsData.filter(
+      (ingredient) => ingredient.type === "main"
+    );
+    return { sauces, buns, mains };
+  }, [ingredientsData]);
+
+  const wrapperRef = useRef(null);
+  const sectionsRef = useRef([]);
+
+  useEffect(() => {
+    const callback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          getTabId(entry.target.id);
+        }
+      });
+    };
+    const options = {
+      root: wrapperRef.current,
+      rootMargin: "0px 0px -90% 0px",
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(callback, options);
+
+    sectionsRef.current.forEach((section) => {
+      observer.observe(section);
+    });
+  }, []);
+
+  return (
+    <div className={style.wrapper}>
+      {isOpenModal && (
+        <Modal onClose={handleCloseModal} header={"Детали ингредиента"}>
+          <IngredientDetails ingredient={openedIngredient} />
+        </Modal>
+      )}
+      <IngredientsTab getTabId={getTabId} tabId={tabId} />
+      <div
+        className={`${style.cardsWrapper} ${style.customScroll}`}
+        ref={wrapperRef}
+      >
+        <div id="Булки" ref={(el) => (sectionsRef.current[0] = el)}>
+          <TypeOfIngredients
+            header="Булки"
+            ingredients={buns}
+            handleOpenModal={handleOpenModal}
+          />
+        </div>
+        <div id="Соусы" ref={(el) => (sectionsRef.current[1] = el)}>
+          <TypeOfIngredients
+            header="Соусы"
+            ingredients={sauces}
+            handleOpenModal={handleOpenModal}
+          />
+        </div>
+        <div id="Начинки" ref={(el) => (sectionsRef.current[2] = el)}>
+          <TypeOfIngredients
+            header="Начинки"
+            ingredients={mains}
+            handleOpenModal={handleOpenModal}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+export default BurgerIngredients;

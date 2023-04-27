@@ -1,12 +1,12 @@
 .card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .price {
-    display: flex;
-    flex-direction: row;
-    gap: 8px
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }

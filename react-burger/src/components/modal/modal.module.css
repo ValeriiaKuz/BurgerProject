@@ -1,12 +1,12 @@
 .modal {
-    background: #1C1C21;
-    border: 1px solid rgba(76, 76, 255, 0.2);
-    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
-    border-radius: 40px;
+  background: #1c1c21;
+  border: 1px solid rgba(76, 76, 255, 0.2);
+  box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
 }
 
 .modalHeader {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
-
