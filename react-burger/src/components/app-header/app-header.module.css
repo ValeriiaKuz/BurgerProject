@@ -30,18 +30,6 @@
   gap: 8px;
 }
 
-.navLink {
-  text-decoration: none;
-  color: var(--text-inactive-color);
-}
-.active{
-  color: var(--text-primary-color)
-}
-
-.navLink:hover,
-.navLink:active {
-  color: var(--text-primary-color);
-}
 
 .profile {
   composes: navItem;

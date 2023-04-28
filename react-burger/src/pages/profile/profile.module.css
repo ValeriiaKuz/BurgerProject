@@ -1,0 +1,21 @@
+.wrapper{
+    margin: 120px auto 0;
+    max-width: 1240px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 60px;
+}
+.nav{
+    flex: 1;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 24px;
+
+}
+.empty{
+    flex: 1;
+}
