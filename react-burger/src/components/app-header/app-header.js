@@ -6,6 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./app-header.module.css";
 import { NavLink } from "react-router-dom";
+import React from "react";
 
 function AppHeader() {
   return (
@@ -71,5 +72,4 @@ function AppHeader() {
     </header>
   );
 }
-
-export default AppHeader;
+export default React.memo(AppHeader);

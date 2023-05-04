@@ -2,10 +2,10 @@ import style from "./auth-form.module.css";
 import { NavLink } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const AuthForm = ({ title, buttonTitle, children, navLinks }) => {
+const AuthForm = ({ title, buttonTitle, children, navLinks, handleSubmit }) => {
   return (
     <div className={style.wrapper}>
-      <div className={style.inputs}>
+      <form className={style.inputs} onSubmit={handleSubmit}>
         <h2 className="text text_type_main-medium">{title}</h2>
         {children}
         <div>
@@ -13,7 +13,7 @@ const AuthForm = ({ title, buttonTitle, children, navLinks }) => {
             {buttonTitle}
           </Button>
         </div>
-      </div>
+      </form>
 
       <div className={style.nav}>
         {navLinks.map((link) => (

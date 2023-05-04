@@ -6,7 +6,6 @@ const OrderPrice = () => {
   const burgerData = useSelector(
     (store) => store.addedIngredients.addedIngredients
   );
-
   const orderPrice = useMemo(() => {
     return burgerData.reduce((totalPrice, ingredient) => {
       if (ingredient.type === "bun") {
