@@ -1,5 +1,6 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { forwardRef } from "react";
+import PropTypes from "prop-types";
 
 const PasswordInput = forwardRef(
   ({ setValue, value, isVisible, setVisible }, ref) => {
@@ -21,4 +22,10 @@ const PasswordInput = forwardRef(
     );
   }
 );
+PasswordInput.propTypes = {
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+};
 export default PasswordInput;

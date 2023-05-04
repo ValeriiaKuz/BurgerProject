@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUser } from "../../services/actions/auth";
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export const ProtectedRouteElement = ({ element }) => {
   const { email, name } = useSelector((store) => store.auth.user);
@@ -24,4 +25,7 @@ export const ProtectedRouteElement = ({ element }) => {
   if (email && name) {
     return element;
   }
+};
+ProtectedRouteElement.propTypes = {
+  element: PropTypes.element.isRequired,
 };

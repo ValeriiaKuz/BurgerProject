@@ -48,6 +48,7 @@ const Modal = ({ children, header, onClose }) => {
 Modal.propTypes = {
   header: PropTypes.string,
   children: PropTypes.element,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

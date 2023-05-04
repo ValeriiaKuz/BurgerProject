@@ -1,6 +1,7 @@
 import style from "./auth-form.module.css";
 import { NavLink } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 const AuthForm = ({ title, buttonTitle, children, navLinks, handleSubmit }) => {
   return (
@@ -31,5 +32,14 @@ const AuthForm = ({ title, buttonTitle, children, navLinks, handleSubmit }) => {
     </div>
   );
 };
-
+AuthForm.propTypes = {
+  title: PropTypes.string.isRequired,
+  buttonTitle: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
+  navLinks: PropTypes.arrayOf(PropTypes.object),
+  handleSubmit: PropTypes.func.isRequired,
+};
 export default AuthForm;

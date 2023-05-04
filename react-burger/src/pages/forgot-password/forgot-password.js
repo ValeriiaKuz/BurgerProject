@@ -40,7 +40,6 @@ const ForgotPassword = () => {
       ]}
       handleSubmit={onHandleSubmit}
     >
-      {" "}
       <EmailInput
         setValue={setValueEmail}
         value={valueEmail}
