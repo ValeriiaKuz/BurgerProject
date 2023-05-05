@@ -16,9 +16,9 @@ import ResetPassword from "../../pages/reset-password /reset-password";
 import { ProfileInputs } from "../../pages/profile/profile-inputs/profile-inputs";
 import { ProfileOrder } from "../../pages/profile/profile-order/profile-order";
 import { ProfileOrders } from "../../pages/profile/profile-orders/profile-orders";
-import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 import { getUser } from "../../services/actions/auth";
 import { LogOut } from "../../pages/logout/logout";
+import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 
 const App = () => {
   let location = useLocation();
@@ -43,14 +43,42 @@ const App = () => {
           path="/"
           element={!isLoading && !isError && <ComponentWrapper />}
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRouteElement withAuth={false} element={<Login />} />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRouteElement withAuth={false} element={<Register />} />
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRouteElement
+              withAuth={false}
+              element={<ForgotPassword />}
+            />
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRouteElement
+              withAuth={false}
+              element={<ResetPassword />}
+            />
+          }
+        />
         <Route path="/feed" element={<Feed />} />
         <Route
           path="/profile"
-          element={<ProtectedRouteElement element={<Profile />} />}
+          element={
+            <ProtectedRouteElement withAuth={true} element={<Profile />} />
+          }
         >
           <Route path="" element={<ProfileInputs />} />
           <Route path="orders" element={<ProfileOrders />} />

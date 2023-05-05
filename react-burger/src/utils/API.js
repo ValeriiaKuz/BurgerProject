@@ -1,5 +1,4 @@
 import { getCookie, setCookie } from "./cookie";
-import { Navigate } from "react-router-dom";
 
 export const PUBLIC_URL = "https://norma.nomoreparties.space/api/";
 const getResponse = (res) => {
@@ -82,16 +81,6 @@ export const sendResetChangeProfileInfo = (name, email, password) =>
     },
     body: JSON.stringify({ email: email, name: name, password: password }),
   }).then(getResponse);
-export const getUserRequest = () =>
-  fetchWithAuth(`${PUBLIC_URL}auth/user`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("accessToken"),
-    },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-  }).then(getResponse);
 const refreshToken = (token) => {
   return fetch(`${PUBLIC_URL}auth/token`, {
     method: "POST",
@@ -110,39 +99,43 @@ const refreshToken = (token) => {
           ? res.accessToken.split("Bearer ")[1]
           : null;
       if (accessToken) {
-        setCookie("accessToken", accessToken);
+        setCookie("accessToken", accessToken, { path: "/" });
       }
       if (refreshToken) {
-        setCookie("refreshToken", refreshToken);
+        setCookie("refreshToken", refreshToken, { path: "/" });
       }
     });
 };
+const getUserRequest = (token) =>
+  fetch(`${PUBLIC_URL}auth/user`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  }).then(getResponse);
 
-function isTokenExpired(token) {
-  const tokenParts = token.split(".");
-  const payload = tokenParts[1];
-  const decodedPayload = JSON.parse(atob(payload));
-  const currentTime = Math.floor(Date.now() / 1000);
-  return decodedPayload.exp < currentTime;
-}
-
-export async function fetchWithAuth(url, options) {
-  let tokenData = null;
-  if (getCookie("accessToken")) {
-    tokenData = getCookie("accessToken");
-  } else {
-    return <Navigate to="/login" />;
+export const getUserRequestWithAuth = () => {
+  const token = getCookie("accessToken");
+  if (!token) {
+    return Promise.reject(new Error("User not authorized"));
   }
-  if (tokenData) {
-    if (isTokenExpired(tokenData)) {
-      try {
-        await refreshToken(getCookie("refreshToken"));
-      } catch (error) {
-        return <Navigate to="/login" />;
+  return getUserRequest(token)
+    .then((res) => {
+      return res;
+    })
+    .catch(() => {
+      const refreshTokenValue = getCookie("refreshToken");
+      if (!refreshTokenValue) {
+        return Promise.reject(new Error("User not authorized"));
       }
-    }
-    const token = getCookie("accessToken");
-    options.headers.Authorization = `Bearer ${token}`;
-  }
-  return fetch(url, options);
-}
+      return refreshToken(refreshTokenValue).then(() => {
+        const newToken = getCookie("accessToken");
+        return getUserRequest(newToken).then((res) => {
+          return res;
+        });
+      });
+    });
+};

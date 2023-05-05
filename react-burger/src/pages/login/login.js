@@ -1,27 +1,21 @@
 import { useRef, useState } from "react";
 import AuthForm from "../../components/form/auth-form/auth-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { singIn } from "../../services/actions/auth";
-import { Navigate } from "react-router-dom";
 import EmailInput from "../../components/form/email/email";
 import PasswordInput from "../../components/form/password/password";
 
 const Login = () => {
-  const user = useSelector((store) => store.auth.user);
   const [valueEmail, setValueEmail] = useState("");
   const emailRef = useRef(null);
   const [valuePassword, setValuePassword] = useState("");
   const passwordRef = useRef(null);
   const [isVisible, setVisible] = useState(false);
-
   const dispatch = useDispatch();
   const onHandleSubmit = (e) => {
     e.preventDefault();
     dispatch(singIn(valueEmail, valuePassword));
   };
-  if (user.name && user.email) {
-    return <Navigate to="/" replace />;
-  }
   return (
     <AuthForm
       title="Вход"

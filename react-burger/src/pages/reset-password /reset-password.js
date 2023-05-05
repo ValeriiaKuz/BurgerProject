@@ -7,7 +7,6 @@ import { sendResetPassword } from "../../services/actions/auth";
 import PasswordInput from "../../components/form/password/password";
 
 const ResetPassword = () => {
-  const user = useSelector((store) => store.auth.user);
   const emailSendSuccess = useSelector((store) => store.auth.emailSendSuccess);
   const resetSuccess = useSelector((store) => store.auth.resetSuccess);
   const [valuePassword, setValuePassword] = useState("");
@@ -15,23 +14,17 @@ const ResetPassword = () => {
   const [valueCode, setValueCode] = useState("");
   const codeRef = useRef(null);
   const [isVisible, setVisible] = useState(false);
-
   const dispatch = useDispatch();
   const onHandleSubmit = (e) => {
     e.preventDefault();
     dispatch(sendResetPassword(valuePassword, valueCode));
   };
   const navigate = useNavigate();
-
   useEffect(() => {
     if (resetSuccess === true) {
       return navigate("/login");
     }
   }, [resetSuccess]);
-
-  if (user.name && user.email) {
-    return <Navigate to="/" replace />;
-  }
   if (!emailSendSuccess) {
     return <Navigate to="/forgot-password" replace />;
   }

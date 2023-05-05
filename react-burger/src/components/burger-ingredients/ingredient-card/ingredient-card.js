@@ -5,8 +5,7 @@ import {
 import React from "react";
 import style from "./ingredient-card.module.css";
 import { ingredientPropTypes } from "../../../utils/propTypes";
-import { useDispatch, useSelector } from "react-redux";
-import { addIngredientAC } from "../../../services/actions/add-ingredient";
+import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -27,14 +26,7 @@ function IngredientCard({ ingredient }) {
     }
     return count;
   };
-
   const count = countTotal();
-
-  const dispatch = useDispatch();
-  const addIngredient = (ingredient) => {
-    dispatch(addIngredientAC(ingredient));
-  };
-
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: { ingredient },
@@ -51,12 +43,7 @@ function IngredientCard({ ingredient }) {
       className={style.navLink}
     >
       <div ref={dragRef} style={{ opacity }}>
-        <div
-          className={style.card}
-          onClick={() => {
-            addIngredient(ingredient);
-          }}
-        >
+        <div className={style.card}>
           <img
             className="pl-4 pr-4"
             src={ingredient.image}

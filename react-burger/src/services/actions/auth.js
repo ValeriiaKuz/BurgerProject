@@ -1,5 +1,6 @@
 import {
   getUserRequest,
+  getUserRequestWithAuth,
   sendEmailRequest,
   sendRegisterRequest,
   sendResetChangeProfileInfo,
@@ -8,6 +9,7 @@ import {
   singOutRequest,
 } from "../../utils/API";
 import { deleteCookie, setCookie } from "../../utils/cookie";
+import { Navigate } from "react-router-dom";
 
 export const SEND_REGISTER = "SEND_REGISTER";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
@@ -44,10 +46,10 @@ export const register = (valueEmail, valuePassword, valueName) => {
             ? res.accessToken.split("Bearer ")[1]
             : null;
         if (accessToken) {
-          setCookie("accessToken", accessToken);
+          setCookie("accessToken", accessToken, { path: "/" });
         }
         if (refreshToken) {
-          setCookie("refreshToken", refreshToken);
+          setCookie("refreshToken", refreshToken, { path: "/" });
         }
         if (res && res.success) {
           dispatch({
@@ -82,10 +84,10 @@ export const singIn = (valueEmail, valuePassword) => {
             ? res.accessToken.split("Bearer ")[1]
             : null;
         if (accessToken) {
-          setCookie("accessToken", accessToken);
+          setCookie("accessToken", accessToken, { path: "/" });
         }
         if (refreshToken) {
-          setCookie("refreshToken", refreshToken);
+          setCookie("refreshToken", refreshToken, { path: "/" });
         }
         if (res && res.success) {
           dispatch({
@@ -139,7 +141,7 @@ export const getUser = () => {
     dispatch({
       type: GET_USER_DATA,
     });
-    getUserRequest()
+    getUserRequestWithAuth()
       .then((res) => {
         if (res && res.success) {
           dispatch({
@@ -157,6 +159,7 @@ export const getUser = () => {
         dispatch({
           type: GET_USER_DATA_FAILED,
         });
+        <Navigate to="login" />;
       });
   };
 };

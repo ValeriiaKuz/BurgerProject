@@ -1,31 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getUser } from "../../services/actions/auth";
-import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export const ProtectedRouteElement = ({ element }) => {
-  const { email, name } = useSelector((store) => store.auth.user);
-  const isLoadingUser = useSelector((store) => store.auth.isLoadingUser);
+export const ProtectedRouteElement = ({ element, withAuth }) => {
   const isUser = useSelector((store) => store.auth.isUser);
-  const dispatch = useDispatch();
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!email || !name) {
-      dispatch(getUser());
-    }
-  }, [dispatch, email, name]);
-
-  if (isLoadingUser) {
-    return <span>Loading</span>;
-  }
-  if (!isUser) {
-    return <Navigate to="/login" replace />;
-  }
-  if (email && name) {
-    return element;
+  if (withAuth) {
+    return !isUser ? (
+      <Navigate to="/login" replace state={{ from: location }} />
+    ) : (
+      element
+    );
+  } else {
+    return isUser ? (
+      <Navigate to={location.state?.from || "/"} replace />
+    ) : (
+      element
+    );
   }
 };
 ProtectedRouteElement.propTypes = {
   element: PropTypes.element.isRequired,
+  withAuth: PropTypes.bool.isRequired,
 };
