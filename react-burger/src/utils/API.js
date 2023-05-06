@@ -2,8 +2,7 @@ import { getCookie, setCookie } from "./cookie";
 
 export const PUBLIC_URL = "https://norma.nomoreparties.space/api/";
 const getResponse = (res) => {
-  if (!res.ok) throw new Error(`Ошибка запроса ${res.status}`);
-  return res.json();
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 export const sendOrderRequest = (idArray) =>
   fetch(`${PUBLIC_URL}orders`, {
