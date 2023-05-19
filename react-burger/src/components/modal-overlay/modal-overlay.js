@@ -1,14 +1,21 @@
 import style from "./modal-overlay.module.css";
 import PropTypes from "prop-types";
-const ModalOverlay = ({ onClose, children }) => {
+import { useNavigate } from "react-router-dom";
+const ModalOverlay = ({ children, onClose }) => {
+  let navigate = useNavigate();
   return (
-    <div className={style.overlay} onClick={onClose}>
+    <div
+      className={style.overlay}
+      onClick={() => {
+        navigate("/");
+        onClose();
+      }}
+    >
       {children}
     </div>
   );
 };
 ModalOverlay.propTypes = {
-  onClose: PropTypes.func.isRequired,
   children: PropTypes.element,
 };
 export default ModalOverlay;

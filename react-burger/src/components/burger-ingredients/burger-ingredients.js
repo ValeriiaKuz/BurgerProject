@@ -2,36 +2,18 @@ import style from "./burger-ingredients.module.css";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import TypeOfIngredients from "./type-of-ingredients/type-of-ingredients";
-import Modal from "../modal/modal";
-import IngredientDetails from "./ingredient-details/ingredient-details";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  CLOSE_INGREDIENT,
-  OPEN_INGREDIENT,
-} from "../../services/actions/opened-ingredient";
-
+import { useSelector } from "react-redux";
 const BurgerIngredients = () => {
   const [tabId, getTabId] = useState("Булки");
   const ingredientsData = useSelector(
     (store) => store.ingredients.ingredientsData
   );
-  const { openedIngredient, isOpenModal } = useSelector(
-    (store) => store.openedIngredient
-  );
-  const dispatch = useDispatch();
-
   useEffect(() => {
     document
       .getElementById(tabId)
       .scrollIntoView({ behavior: "smooth", block: "start" });
   }, [tabId]);
 
-  const handleOpenModal = (ingredient) => {
-    dispatch({ type: OPEN_INGREDIENT, ingredient });
-  };
-  const handleCloseModal = () => {
-    dispatch({ type: CLOSE_INGREDIENT });
-  };
   const { sauces, buns, mains } = useMemo(() => {
     const sauces = ingredientsData.filter(
       (ingredient) => ingredient.type === "sauce"
@@ -70,36 +52,19 @@ const BurgerIngredients = () => {
 
   return (
     <div className={style.wrapper}>
-      {isOpenModal && (
-        <Modal onClose={handleCloseModal} header={"Детали ингредиента"}>
-          <IngredientDetails ingredient={openedIngredient} />
-        </Modal>
-      )}
       <IngredientsTab getTabId={getTabId} tabId={tabId} />
       <div
         className={`${style.cardsWrapper} ${style.customScroll}`}
         ref={wrapperRef}
       >
         <div id="Булки" ref={(el) => (sectionsRef.current[0] = el)}>
-          <TypeOfIngredients
-            header="Булки"
-            ingredients={buns}
-            handleOpenModal={handleOpenModal}
-          />
+          <TypeOfIngredients header="Булки" ingredients={buns} />
         </div>
         <div id="Соусы" ref={(el) => (sectionsRef.current[1] = el)}>
-          <TypeOfIngredients
-            header="Соусы"
-            ingredients={sauces}
-            handleOpenModal={handleOpenModal}
-          />
+          <TypeOfIngredients header="Соусы" ingredients={sauces} />
         </div>
         <div id="Начинки" ref={(el) => (sectionsRef.current[2] = el)}>
-          <TypeOfIngredients
-            header="Начинки"
-            ingredients={mains}
-            handleOpenModal={handleOpenModal}
-          />
+          <TypeOfIngredients header="Начинки" ingredients={mains} />
         </div>
       </div>
     </div>

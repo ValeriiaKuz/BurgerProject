@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./ingredient-details.module.css";
-import { ingredientPropTypes } from "../../../utils/propTypes";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const [ingredient, setIngredient] = useState({});
+  const ingredientsData = useSelector(
+    (store) => store.ingredients.ingredientsData
+  );
+  let { id } = useParams();
+  useEffect(() => {
+    const foundIngredient = ingredientsData.find((i) => i._id === id);
+    setIngredient(foundIngredient || {});
+  }, [id, ingredientsData]);
   return (
     <div className={`ml-30 mr-30 mb-15 ${style.contentWrapper}`}>
       <img
@@ -35,7 +45,4 @@ const IngredientDetails = ({ ingredient }) => {
   );
 };
 
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-};
 export default IngredientDetails;

@@ -10,14 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrderNumber } from "../../services/actions/order-number";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useNavigate } from "react-router-dom";
 
 const ComponentWrapper = () => {
   const addedIngredients = useSelector(
     (store) => store.addedIngredients.addedIngredients
   );
   const { isLoading, isError } = useSelector((store) => store.orderNumber);
+  const isUser = useSelector((store) => store.auth.isUser);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleOrderClick = () => {
     const idArray = [
       ...addedIngredients.map((ingredient) => ingredient._id),
@@ -25,15 +27,14 @@ const ComponentWrapper = () => {
     ];
     dispatch(getOrderNumber(idArray));
   };
-
   const [isOpenModal, setIsOpenModal] = useState(false);
   const handleOpenModal = () => {
+    handleOrderClick();
     setIsOpenModal(true);
   };
   const handleCloseModal = () => {
     setIsOpenModal(false);
   };
-
   return (
     <main>
       <h1 className="text text_type_main-large mt-5 mb-5">Соберите бургер</h1>
@@ -47,8 +48,7 @@ const ComponentWrapper = () => {
             <OrderPrice />
             <Button
               onClick={() => {
-                handleOpenModal();
-                handleOrderClick();
+                isUser ? handleOpenModal() : navigate("/login");
               }}
               disabled={
                 !addedIngredients.find((i) => i.type === "bun") ||
@@ -77,5 +77,4 @@ const ComponentWrapper = () => {
     </main>
   );
 };
-
 export default ComponentWrapper;

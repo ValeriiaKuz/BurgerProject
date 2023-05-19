@@ -4,11 +4,15 @@ import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ children, header, onClose }) => {
+  let navigate = useNavigate();
+
   useEffect(() => {
     const escClose = (event) => {
       if (event.key === "Escape") {
+        navigate("/");
         onClose();
       }
     };
@@ -16,7 +20,7 @@ const Modal = ({ children, header, onClose }) => {
     return () => {
       document.removeEventListener("keydown", escClose);
     };
-  }, [onClose]);
+  }, []);
 
   return ReactDOM.createPortal(
     <>
@@ -26,7 +30,13 @@ const Modal = ({ children, header, onClose }) => {
             className={`${style.modalHeader} mt-10 ml-10 mr-10 text text_type_main-large`}
           >
             <div>{header}</div>
-            <CloseIcon type="primary" onClick={onClose} />
+            <CloseIcon
+              type="primary"
+              onClick={() => {
+                navigate("/");
+                onClose();
+              }}
+            />
           </div>
           {children}
         </div>
@@ -36,9 +46,9 @@ const Modal = ({ children, header, onClose }) => {
   );
 };
 Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
   header: PropTypes.string,
   children: PropTypes.element,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

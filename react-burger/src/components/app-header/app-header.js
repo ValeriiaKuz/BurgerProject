@@ -5,6 +5,8 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./app-header.module.css";
+import { NavLink } from "react-router-dom";
+import React from "react";
 
 function AppHeader() {
   return (
@@ -13,38 +15,61 @@ function AppHeader() {
         <nav className={style.nav}>
           <ul className={style.navList}>
             <li className={`pr-5 ${style.navItem}`}>
-              <a
-                href="#"
-                className={`${style.navLink} text text_type_main-default`}
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? `activeNav text text_type_main-default`
+                    : `navLink text text_type_main-default`
+                }
               >
-                <BurgerIcon type={"primary"} />
-                <span className={`pl-2 ${style.active}`}>Конструктор</span>
-              </a>
+                {({ isActive }) => (
+                  <>
+                    <BurgerIcon type={isActive ? "primary" : "secondary"} />
+                    <span className={`pl-2`}>Конструктор</span>
+                  </>
+                )}
+              </NavLink>
             </li>
             <li className={`pl-5 pr-5  ${style.navItem}`}>
-              <a
-                href="#"
-                className={`text text_type_main-default ${style.navLink}`}
+              <NavLink
+                to="/feed"
+                className={({ isActive }) =>
+                  isActive
+                    ? `activeNav text text_type_main-default`
+                    : `navLink text text_type_main-default`
+                }
               >
-                <ListIcon type="secondary" />
-                <span className="pl-2">Лента заказов</span>
-              </a>
+                {({ isActive }) => (
+                  <>
+                    <ListIcon type={isActive ? "primary" : "secondary"} />
+                    <span className={`pl-2`}>Лента заказов</span>
+                  </>
+                )}
+              </NavLink>
             </li>
           </ul>
         </nav>
         <Logo className={style.logo} />
         <div className={`${style.profile} pb-4 pt-4`}>
-          <a
-            href="#"
-            className={`text text_type_main-default text_color_inactive ${style.navLink}`}
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive
+                ? `activeNav text text_type_main-default`
+                : `navLink text text_type_main-default`
+            }
           >
-            <ProfileIcon type="secondary" />
-            <span className="pl-2">Личный кабинет</span>
-          </a>
+            {({ isActive }) => (
+              <>
+                <ProfileIcon type={isActive ? "primary" : "secondary"} />
+                <span className={`pl-2`}>Личный кабинет</span>
+              </>
+            )}
+          </NavLink>
         </div>
       </div>
     </header>
   );
 }
-
-export default AppHeader;
+export default React.memo(AppHeader);

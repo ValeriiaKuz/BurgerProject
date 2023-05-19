@@ -19,7 +19,6 @@ const BurgerConstructor = () => {
     const ingredients = addedIngredients.filter((item) => item.type !== "bun");
     return { bun, ingredients };
   }, [addedIngredients]);
-
   const dispatch = useDispatch();
   const [, dropRef] = useDrop({
     accept: "ingredient",
@@ -27,17 +26,14 @@ const BurgerConstructor = () => {
       dispatch(addIngredientAC(item.ingredient));
     },
   });
-  const deleteIngredient = (id, price) => {
-    dispatch({ type: DELETE_INGREDIENT, id: id, price: price });
+  const deleteIngredient = (id) => {
+    dispatch({ type: DELETE_INGREDIENT, id: id });
   };
-
   const moveListItem = useCallback(
     (dragIndex, hoverIndex) => {
       const dragItem = ingredients[dragIndex];
       const hoverItem = ingredients[hoverIndex];
-
       const updatedIngredients = [...ingredients];
-
       updatedIngredients[dragIndex] = hoverItem;
       updatedIngredients[hoverIndex] = dragItem;
       dispatch({
@@ -48,7 +44,6 @@ const BurgerConstructor = () => {
     },
     [bun, ingredients, dispatch]
   );
-
   const sauceAndMain = ingredients.map((ingredient, index) => {
     return (
       <MainSauceElement
@@ -60,7 +55,6 @@ const BurgerConstructor = () => {
       />
     );
   });
-
   return (
     <div className={style.constructorWrapper} ref={dropRef}>
       <div className={`${style.bunWrapper} mt-4 mb-4`}>
@@ -93,5 +87,4 @@ const BurgerConstructor = () => {
     </div>
   );
 };
-
 export default BurgerConstructor;
