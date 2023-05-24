@@ -195,6 +195,7 @@ export const sendResetPassword = (password, code) => {
     });
     sendResetPasswordRequest(password, code)
       .then((res) => {
+        console.log(res);
         if (res && res.success) {
           dispatch({
             type: SEND_RESET_PASSWORD_SUCCESS,
