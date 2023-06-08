@@ -1,8 +1,9 @@
 import style from "./profile.module.css";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { FC } from "react";
 
 const Profile: FC = () => {
+  const location = useLocation();
   return (
     <div className={style.wrapper}>
       <div className={`${style.nav} ml-5`}>
@@ -43,11 +44,18 @@ const Profile: FC = () => {
           В этом разделе вы можете изменить свои персональные данные
         </span>
       </div>
-      <div>
+      <div
+        className={
+          location.pathname === "/profile/orders"
+            ? style.outletWithMargin
+            : style.outlet
+        }
+      >
         <Outlet />
       </div>
-
-      <div className={style.empty}></div>
+      {location.pathname !== "/profile/orders" ? (
+        <div className={style.empty}></div>
+      ) : null}
     </div>
   );
 };

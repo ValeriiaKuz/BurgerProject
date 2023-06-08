@@ -2,8 +2,7 @@ import style from "./burger-ingredients.module.css";
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import TypeOfIngredients from "./type-of-ingredients/type-of-ingredients";
-import { useSelector } from "react-redux";
-import { TIngredient } from "../../utils/types/ingredient-types";
+import { useSelector } from "../../utils/hooks/hooks";
 export enum TabType {
   bun = "Булки",
   sauces = "Соусы",
@@ -11,8 +10,8 @@ export enum TabType {
 }
 const BurgerIngredients: FC = () => {
   const [tabId, setTabId] = useState<TabType>(TabType.bun);
-  const ingredientsData: ReadonlyArray<TIngredient> = useSelector(
-    (store: any) => store.ingredients.ingredientsData
+  const ingredientsData = useSelector(
+    (store) => store.ingredients.ingredientsData
   );
   useEffect(() => {
     document

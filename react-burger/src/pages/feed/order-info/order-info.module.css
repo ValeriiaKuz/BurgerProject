@@ -1,0 +1,55 @@
+.orderWrapper{
+    max-height: 640px;
+    width: 640px;
+    margin: 0 40px 40px;
+}
+.orderNumber{
+    text-align: center;
+    margin-bottom: 24px;
+}
+.orderName{
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    margin-bottom: 60px;
+}
+.done{
+    color: #00CCCC;
+}
+.ingredientCardsTitle{
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+    max-height: 395px;
+}
+.ingredientCards{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    margin-bottom: 36px;
+    overflow-y: scroll;
+    height: 100%;
+}
+.dateAndCost{
+    display: flex;
+    justify-content: space-between;
+}
+.cost{
+    display: flex;
+    align-items: center;
+    gap:8px
+}
+.customScroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+}
+
+.customScroll::-webkit-scrollbar-track {
+    background: #2f2f37;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+    background: #8585ad;
+    border: 3px solid #2f2f37;
+    border-radius: 6px;
+}

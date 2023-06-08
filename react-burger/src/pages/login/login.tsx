@@ -1,9 +1,9 @@
 import { FC, FormEvent, useRef, useState } from "react";
 import AuthForm from "../../components/form/auth-form/auth-form";
-import { useDispatch } from "react-redux";
 import { singIn } from "../../services/actions/auth";
 import EmailInput from "../../components/form/email/email";
 import PasswordInput from "../../components/form/password/password";
+import { useDispatch } from "../../utils/hooks/hooks";
 
 const Login: FC = () => {
   const [valueEmail, setValueEmail] = useState<string>("");
@@ -14,7 +14,6 @@ const Login: FC = () => {
   const dispatch = useDispatch();
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(singIn(valueEmail, valuePassword));
   };
   return (

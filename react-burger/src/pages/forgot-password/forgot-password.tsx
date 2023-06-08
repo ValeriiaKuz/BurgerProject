@@ -1,20 +1,17 @@
 import { FC, FormEvent, useEffect, useRef, useState } from "react";
 import AuthForm from "../../components/form/auth-form/auth-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { sendEmail } from "../../services/actions/auth";
 import EmailInput from "../../components/form/email/email";
+import { useDispatch, useSelector } from "../../utils/hooks/hooks";
 
 const ForgotPassword: FC = () => {
-  const emailSendSuccess: boolean = useSelector(
-    (store: any) => store.auth.emailSendSuccess
-  );
+  const emailSendSuccess = useSelector((store) => store.auth.emailSendSuccess);
   const [valueEmail, setValueEmail] = useState<string>("");
   const emailRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(sendEmail(valueEmail));
   };
   const navigate = useNavigate();

@@ -4,21 +4,15 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, FormEvent, RefObject, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../../utils/hooks/hooks";
 import { sendEditProfileInfo } from "../../../services/actions/auth";
-type UserType = {
-  email: string;
-  name: string;
-};
 export const ProfileInputs: FC = () => {
-  const { email, name }: UserType = useSelector(
-    (store: any) => store.auth.user
-  );
-  const [valueEmail, setValueEmail] = useState<string>(email);
+  const { email, name } = useSelector((store) => store.auth.user);
+  const [valueEmail, setValueEmail] = useState(email);
   const emailRef = useRef<HTMLInputElement>(null);
   const [valuePassword, setValuePassword] = useState<string>("");
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [valueName, setValueName] = useState<string>(name);
+  const [valueName, setValueName] = useState(name);
   const nameRef = useRef<HTMLInputElement>(null);
   const [isChanged, setChanged] = useState<boolean>(false);
   const [isEmailEditable, setEmailEditable] = useState<boolean>(false);
@@ -45,8 +39,9 @@ export const ProfileInputs: FC = () => {
   };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
-    dispatch(sendEditProfileInfo(valueName, valueEmail, valuePassword));
+    if (valueName && valueEmail) {
+      dispatch(sendEditProfileInfo(valueName, valueEmail, valuePassword));
+    }
   };
   useEffect(() => {
     if (
@@ -64,7 +59,7 @@ export const ProfileInputs: FC = () => {
       <Input
         type={"text"}
         placeholder={"Имя"}
-        value={valueName}
+        value={valueName!}
         onChange={(e) => setValueName(e.target.value)}
         ref={nameRef}
         size={"default"}
@@ -78,7 +73,7 @@ export const ProfileInputs: FC = () => {
       <Input
         type={"email"}
         placeholder={"Логин"}
-        value={valueEmail}
+        value={valueEmail!}
         onChange={(e) => setValueEmail(e.target.value)}
         ref={emailRef}
         size={"default"}

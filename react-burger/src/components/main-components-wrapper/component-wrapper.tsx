@@ -6,24 +6,19 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import OrderDetails from "../burger-constructor/order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
 import { getOrderNumber } from "../../services/actions/order-number";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useNavigate } from "react-router-dom";
 import { TIngredientWithID } from "../../utils/types/ingredient-types";
-type OrderType = {
-  isLoading: boolean;
-  isError: boolean;
-};
+import { useDispatch, useSelector } from "../../utils/hooks/hooks";
+
 const ComponentWrapper: FC = () => {
   const addedIngredients: Array<TIngredientWithID> = useSelector(
     (store: any) => store.addedIngredients.addedIngredients
   );
-  const { isLoading, isError }: OrderType = useSelector(
-    (store: any) => store.orderNumber
-  );
-  const isUser: boolean = useSelector((store: any) => store.auth.isUser);
+  const { isLoading, isError } = useSelector((store) => store.orderNumber);
+  const isUser = useSelector((store) => store.auth.isUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleOrderClick = (): void => {
@@ -33,7 +28,6 @@ const ComponentWrapper: FC = () => {
       ),
       addedIngredients[0]._id,
     ];
-    // @ts-ignore
     dispatch(getOrderNumber(idArray));
   };
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);

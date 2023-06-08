@@ -1,0 +1,81 @@
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    background-color: #1C1C21;
+    margin-bottom: 16px;
+    border-radius: 40px;
+    margin-right: 8px;
+;
+}
+.link{
+    text-decoration: none;
+    color: white
+}
+
+.orderNumber{
+    display: flex;
+    justify-content: space-between;
+}
+.imgCostWrapper{
+    display: flex;
+    justify-content: space-between;
+    max-height: 56px;
+}
+.imgsWrapper{
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+}
+.imgWrapper{
+    display: flex;
+    width: 64px;
+    height: 64px;
+    border: 2px solid rgba(128, 26, 178, 1);
+    border-radius: 100px;
+    box-sizing: border-box;
+    background-color: #131316;
+    position: relative;
+    margin-left: -20px;
+}
+
+.img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 56px;
+}
+.last{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lastImg{
+    background-color: #1C1C21;
+    opacity: 0.6;
+}
+.moreIngredients{
+    color: rgba(242, 242, 243, 1);
+    font-size: 22px;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.price{
+    display: flex;
+    align-items: center;
+    gap:9px
+}
+.nameAndStatus{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.done{
+    color: #00CCCC;
+}

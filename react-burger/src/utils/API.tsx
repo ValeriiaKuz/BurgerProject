@@ -1,5 +1,6 @@
 import { getCookie, setCookie } from "./cookie";
 import { TIngredient } from "./types/ingredient-types";
+import { EmailType, NameType, PassWordType } from "../services/actions/auth";
 
 type URLType = "https://norma.nomoreparties.space/api/";
 type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
@@ -40,6 +41,7 @@ export const sendOrderRequest = (
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      Authorization: "Bearer " + getCookie("accessToken"),
     },
     body: JSON.stringify({
       ingredients: idArray,
@@ -47,11 +49,11 @@ export const sendOrderRequest = (
   }).then(getResponse);
 
 export const sendRegisterRequest = (
-  email: string,
-  password: string | number,
-  name: string | number
+  email: EmailType,
+  password: PassWordType,
+  name: NameType
 ): Promise<
-  TResponseBody<"user", { name: string; email: string }> & {
+  TResponseBody<"user", { name: NameType; email: EmailType }> & {
     accessToken: string;
     refreshToken: string;
   }
@@ -69,9 +71,9 @@ export const sendRegisterRequest = (
   }).then(getResponse);
 export const singInRequest = (
   email: string,
-  password: string | number
+  password: string
 ): Promise<
-  TResponseBody<"user", { name: string; email: string }> & {
+  TResponseBody<"user", { name: NameType; email: EmailType }> & {
     accessToken: string;
     refreshToken: string;
   }
@@ -96,7 +98,7 @@ export const singOutRequest = (token: string): Promise<TResponseBody> =>
       token,
     }),
   }).then(getResponse);
-export const sendEmailRequest = (email: string): Promise<TResponseBody> =>
+export const sendEmailRequest = (email: EmailType): Promise<TResponseBody> =>
   fetch(`${PUBLIC_URL}password-reset`, {
     method: "POST",
     headers: {
@@ -107,8 +109,8 @@ export const sendEmailRequest = (email: string): Promise<TResponseBody> =>
     }),
   }).then(getResponse);
 export const sendResetPasswordRequest = (
-  password: string | number,
-  code: string | number
+  password: PassWordType,
+  code: string
 ): Promise<TResponseBody> =>
   fetch(`${PUBLIC_URL}password-reset/reset`, {
     method: "POST",
@@ -121,10 +123,10 @@ export const sendResetPasswordRequest = (
     }),
   }).then(getResponse);
 export const sendResetChangeProfileInfo = (
-  name: string | number,
-  email: string,
-  password: string | number
-): Promise<TResponseBody<"user", { name: string; email: string }>> =>
+  name: NameType,
+  email: EmailType,
+  password: PassWordType | null
+): Promise<TResponseBody<"user", { name: NameType; email: EmailType }>> =>
   fetch(`${PUBLIC_URL}auth/user`, {
     method: "PATCH",
     headers: {
@@ -136,7 +138,7 @@ export const sendResetChangeProfileInfo = (
 const refreshTokenRequest = (
   token: string
 ): Promise<
-  TResponseBody<"user", { name: string; email: string }> & {
+  TResponseBody<"user", { name: NameType; email: EmailType }> & {
     accessToken: string;
     refreshToken: string;
   }
@@ -165,10 +167,9 @@ const refreshToken = (token: string): Promise<void> => {
     }
   });
 };
-
 const getUserRequest = (
   token: string
-): Promise<TResponseBody<"user", { name: string; email: string }>> =>
+): Promise<TResponseBody<"user", { name: NameType; email: EmailType }>> =>
   fetch(`${PUBLIC_URL}auth/user`, {
     method: "GET",
     headers: {
@@ -180,7 +181,7 @@ const getUserRequest = (
   }).then(getResponse);
 
 export const getUserRequestWithAuth = (): Promise<
-  TResponseBody<"user", { name: string; email: string }>
+  TResponseBody<"user", { name: NameType; email: EmailType }>
 > => {
   const token = getCookie("accessToken");
   if (!token) {

@@ -1,10 +1,10 @@
 import { FC, FormEvent, useRef, useState } from "react";
 import AuthForm from "../../components/form/auth-form/auth-form";
 import { register } from "../../services/actions/auth";
-import { useDispatch } from "react-redux";
 import PasswordInput from "../../components/form/password/password";
 import EmailInput from "../../components/form/email/email";
 import NameInput from "../../components/form/name/name";
+import { useDispatch } from "../../utils/hooks/hooks";
 
 const Register: FC = () => {
   const [valueEmail, setValueEmail] = useState<string>("");
@@ -17,7 +17,6 @@ const Register: FC = () => {
   const dispatch = useDispatch();
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(register(valueEmail, valuePassword, valueName));
   };
   return (

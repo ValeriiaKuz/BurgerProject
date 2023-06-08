@@ -1,27 +1,26 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/hooks/hooks";
 import { useDrop } from "react-dnd";
-import {
-  addIngredientAC,
-  DELETE_INGREDIENT,
-  SORT_INGREDIENTS,
-} from "../../services/actions/add-ingredient";
+import { addIngredientAC } from "../../services/actions/add-ingredient";
 import MainSauceElement from "./main-sauce-element/main-sauce-element";
 import React, { FC, useCallback, useMemo } from "react";
 import {
   TIngredient,
   TIngredientWithID,
 } from "../../utils/types/ingredient-types";
+import {
+  DELETE_INGREDIENT,
+  SORT_INGREDIENTS,
+} from "../../services/constants/constants";
 
 const BurgerConstructor: FC = () => {
-  type TAddedIngredients = Array<TIngredientWithID>;
   type TIngredients = {
     bun: TIngredientWithID | undefined;
     ingredients: Array<TIngredientWithID>;
   };
-  const addedIngredients: TAddedIngredients = useSelector(
-    (store: any) => store.addedIngredients.addedIngredients
+  const addedIngredients = useSelector(
+    (store) => store.addedIngredients.addedIngredients
   );
   const { bun, ingredients }: TIngredients = useMemo(() => {
     const bun = addedIngredients.find(

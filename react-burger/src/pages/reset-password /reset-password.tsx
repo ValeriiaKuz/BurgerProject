@@ -1,18 +1,14 @@
 import AuthForm from "../../components/form/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, FormEvent, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { sendResetPassword } from "../../services/actions/auth";
 import PasswordInput from "../../components/form/password/password";
+import { useDispatch, useSelector } from "../../utils/hooks/hooks";
 
 const ResetPassword: FC = () => {
-  const emailSendSuccess: boolean = useSelector(
-    (store: any) => store.auth.emailSendSuccess
-  );
-  const resetSuccess: boolean = useSelector(
-    (store: any) => store.auth.resetSuccess
-  );
+  const emailSendSuccess = useSelector((store) => store.auth.emailSendSuccess);
+  const resetSuccess = useSelector((store) => store.auth.resetSuccess);
   const [valuePassword, setValuePassword] = useState<string>("");
   const passwordRef = useRef<HTMLInputElement>(null);
   const [valueCode, setValueCode] = useState<string>("");
@@ -21,7 +17,6 @@ const ResetPassword: FC = () => {
   const dispatch = useDispatch();
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(sendResetPassword(valuePassword, valueCode));
   };
   const navigate = useNavigate();
