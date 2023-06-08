@@ -12,6 +12,8 @@ import {
   WS_CONNECTION_START,
   WS_CONNECTION_START_WITH_TOKEN,
 } from "../../../services/constants/constants-for-WS";
+import { OrderStatus } from "../../../components/order/order-status";
+import { OrderCost } from "../../../components/order/order-cost";
 export const OrderInfo: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -30,24 +32,19 @@ export const OrderInfo: FC = () => {
   }, [onCreateConnection]);
   let { id }: Readonly<Params> = useParams<string>();
   useEffect(() => {
-    const foundOrder: TOrder | undefined = orders.find(
-      (i: TOrder) => i._id === id
-    );
+    const foundOrder = orders.find((i: TOrder) => i._id === id);
     setOrder(foundOrder || null);
   }, [id, orders]);
   const ingredients = useSelector((state) => state.ingredients.ingredientsData);
-  let totalCost = 0;
-  order?.ingredients.forEach((id) => {
-    const foundIngredient = ingredients.find(
-      (ingredient) => ingredient._id === id
-    );
-    if (foundIngredient) {
-      totalCost += foundIngredient.price;
-      if (foundIngredient.type === "bun") {
-        totalCost += foundIngredient.price;
-      }
+
+  const foundIngredients = useMemo(() => {
+    if (order) {
+      return order.ingredients.map((id) =>
+        ingredients.find((ingredient) => ingredient._id === id)
+      );
     }
-  });
+  }, [ingredients, order?.ingredients]);
+
   const uniqueIngredients = useMemo(() => {
     if (!order) {
       return [];
@@ -64,13 +61,7 @@ export const OrderInfo: FC = () => {
       <div className={style.orderName}>
         <span className="text text_type_main-medium ">{order.name}</span>
         <span className="text text_type_main-small">
-          {order.status === Status.done ? (
-            <div className={style.done}>Выполнен</div>
-          ) : order.status === Status.pending ? (
-            <div>Готовится</div>
-          ) : (
-            <div>Создан</div>
-          )}
+          <OrderStatus order={order} />
         </span>
       </div>
       <div className={style.ingredientCardsTitle}>
@@ -82,6 +73,7 @@ export const OrderInfo: FC = () => {
             }, 0);
             return (
               <IngredientInOrder
+                foundIngredients={foundIngredients!}
                 ingredientId={ingredientID}
                 count={count}
                 key={index}
@@ -94,10 +86,7 @@ export const OrderInfo: FC = () => {
         <div className="text text_type_main-default text_color_inactive">
           <FormattedDate date={new Date(order.createdAt)} />
         </div>
-        <div className={style.cost}>
-          <span className="text text_type_digits-default">{totalCost}</span>
-          <CurrencyIcon type="primary" />
-        </div>
+        <OrderCost foundIngredients={foundIngredients!} />
       </div>
     </div>
   ) : null;

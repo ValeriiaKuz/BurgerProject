@@ -69,7 +69,7 @@
 .price{
     display: flex;
     align-items: center;
-    gap:9px
+    gap:8px
 }
 .nameAndStatus{
     display: flex;
