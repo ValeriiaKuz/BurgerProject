@@ -1,9 +1,8 @@
-import { Status, TOrder } from "../../../../utils/types/ws-response";
+import { TOrder } from "../../../../utils/types/ws-response";
 import { FC, useMemo } from "react";
 import { useSelector } from "../../../../utils/hooks/hooks";
 import style from "./order-card.module.css";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ImgLine } from "./img-line/img-line";
 import { NavLink, useLocation } from "react-router-dom";
 import { OrderFeedStatus } from "../order-feed";
 import { OrderCost } from "../../../../components/order/order-cost";

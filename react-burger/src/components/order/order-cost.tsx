@@ -7,15 +7,12 @@ type OrderCost = {
   count?: number;
 };
 export const OrderCost: FC<OrderCost> = ({ foundIngredients, count }) => {
-  let totalCost = 0;
-  foundIngredients.forEach((foundIngredient) => {
+  let totalCost = foundIngredients.reduce((sum, foundIngredient) => {
     if (foundIngredient) {
-      totalCost += foundIngredient.price;
-      if (foundIngredient.type === "bun") {
-        totalCost += foundIngredient.price;
-      }
+      sum += foundIngredient.price;
     }
-  });
+    return sum;
+  }, 0);
   return (
     <div className={`text text_type_digits-default ${style.price}`}>
       {count ? (

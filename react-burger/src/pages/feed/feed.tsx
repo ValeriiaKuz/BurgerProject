@@ -5,7 +5,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../../services/constants/constants-for-WS";
-import { OrderStatus } from "./order-status/order-status";
+import { OrderStatusBoard } from "./order-status-board/order-status-board";
 import { OrderFeed } from "./order-feed/order-feed";
 
 const Feed: FC = () => {
@@ -22,11 +22,11 @@ const Feed: FC = () => {
       <h2 className="text text_type_main-large mt-5 mb-5">Лента заказов</h2>
       <div className={style.sectionWrapper}>
         <OrderFeed withStatus={false} />
-        <OrderStatus />
+        <OrderStatusBoard />
       </div>
     </div>
   ) : (
-    <span>Загрузка данных</span>
+    <>Загрузка данных</>
   );
 };
 export default Feed;

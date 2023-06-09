@@ -6,9 +6,9 @@ type OrderImgsProps = {
   foundIngredients: Array<TIngredient | undefined>;
 };
 export const OrderImgs: FC<OrderImgsProps> = ({ foundIngredients }) => {
-  const foundIngredientsImg = foundIngredients.map((ingredient) => {
-    return ingredient?.image_mobile;
-  });
+  const foundIngredientsImg = Array.from(
+    new Set(foundIngredients.map((ingredient) => ingredient?.image_mobile))
+  );
   return (
     <div className={style.imgsWrapper}>
       {foundIngredientsImg.slice(0, 6).map((img, index) => {

@@ -7,21 +7,20 @@ export type OrderFeedStatus = {
 };
 export const OrderFeed: FC<OrderFeedStatus> = ({ withStatus }) => {
   const orders = useSelector((state) => state.orders.messages.orders);
-  return (
+  if (withStatus && orders[0]?.createdAt < orders[1]?.createdAt) {
+    orders.reverse();
+  }
+  return orders ? (
     <section>
       <div className={style.wrapper}>
         <div className={`${style.orders} ${style.customScroll} `}>
-          {orders.map((order) => {
-            return (
-              <OrderCard
-                order={order}
-                key={order._id}
-                withStatus={withStatus}
-              />
-            );
-          })}
+          {orders.map((order) => (
+            <OrderCard order={order} key={order._id} withStatus={withStatus} />
+          ))}
         </div>
       </div>
     </section>
+  ) : (
+    <>Загрузка данных</>
   );
 };

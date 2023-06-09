@@ -1,20 +1,21 @@
 import style from "../feed.module.css";
 import { useSelector } from "../../../utils/hooks/hooks";
 import { useMemo } from "react";
+import { Status } from "../../../utils/types/ws-response";
 
-export const OrderStatus = () => {
+export const OrderStatusBoard = () => {
   const total = useSelector((state) => state.orders.messages.total);
   const totalToday = useSelector((state) => state.orders.messages.totalToday);
   const orders = useSelector((state) => state.orders.messages.orders);
 
   const doneOrdersNumber = useMemo(() => {
     return orders
-      .filter((order) => order.status === "done")
+      .filter((order) => order.status === Status.done)
       .map((order) => order.number);
   }, [orders]);
   const notDoneOrdersNumber = useMemo(() => {
     return orders
-      .filter((order) => order.status !== "done")
+      .filter((order) => order.status !== Status.done)
       .map((order) => order.number);
   }, [orders]);
   return (
@@ -23,31 +24,27 @@ export const OrderStatus = () => {
         <div className={style.doneOrdersWrapper}>
           <h3 className="text text_type_main-medium pb-6">Готовы:</h3>
           <div className={`${style.doneOrders} ${style.customScroll}`}>
-            {doneOrdersNumber.map((number, index) => {
-              return (
-                <span
-                  className={`text text_type_digits-default ${style.number}`}
-                  key={index}
-                >
-                  {number}
-                </span>
-              );
-            })}
+            {doneOrdersNumber.map((number, index) => (
+              <span
+                className={`text text_type_digits-default ${style.number}`}
+                key={index}
+              >
+                {number}
+              </span>
+            ))}
           </div>
         </div>
         <div>
           <h3 className="text text_type_main-medium pb-6">В работе:</h3>
           <div className={`${style.doneOrders} ${style.customScroll}`}>
-            {notDoneOrdersNumber.map((number, index) => {
-              return (
-                <span
-                  className={`text text_type_digits-default ${style.number}`}
-                  key={index}
-                >
-                  {number}
-                </span>
-              );
-            })}
+            {notDoneOrdersNumber.map((number, index) => (
+              <span
+                className={`text text_type_digits-default ${style.number}`}
+                key={index}
+              >
+                {number}
+              </span>
+            ))}
           </div>
         </div>
       </div>

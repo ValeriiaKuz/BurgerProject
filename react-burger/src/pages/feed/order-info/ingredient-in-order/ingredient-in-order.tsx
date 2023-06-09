@@ -15,9 +15,6 @@ export const IngredientInOrder: FC<IngredientInOrderProps> = ({
   const foundIngredient = foundIngredients.find(
     (ingredient) => ingredient!._id === ingredientId
   );
-  if (foundIngredient && foundIngredient.type === "bun") {
-    count = count * 2;
-  }
   return foundIngredient ? (
     <div className={style.ingredientWrapper}>
       <div className={style.imgName}>

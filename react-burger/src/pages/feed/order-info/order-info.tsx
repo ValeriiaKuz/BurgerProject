@@ -1,12 +1,9 @@
 import { useDispatch, useSelector } from "../../../utils/hooks/hooks";
 import { Params, useLocation, useParams } from "react-router-dom";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Status, TOrder } from "../../../utils/types/ws-response";
+import { TOrder } from "../../../utils/types/ws-response";
 import style from "./order-info.module.css";
-import {
-  CurrencyIcon,
-  FormattedDate,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientInOrder } from "./ingredient-in-order/ingredient-in-order";
 import {
   WS_CONNECTION_START,
@@ -19,6 +16,7 @@ export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
   const [order, setOrder] = useState<TOrder | null>(null);
   const orders = useSelector((state) => state.orders.messages.orders);
+  const ingredients = useSelector((state) => state.ingredients.ingredientsData);
   const onCreateConnection = useCallback(() => {
     if (orders.length < 1 && location.pathname.startsWith("/profile")) {
       dispatch({ type: WS_CONNECTION_START_WITH_TOKEN });
@@ -27,16 +25,13 @@ export const OrderInfo: FC = () => {
       dispatch({ type: WS_CONNECTION_START });
     }
   }, [dispatch, location.pathname, orders.length]);
-  useEffect(() => {
-    onCreateConnection();
-  }, [onCreateConnection]);
+
   let { id }: Readonly<Params> = useParams<string>();
   useEffect(() => {
     const foundOrder = orders.find((i: TOrder) => i._id === id);
     setOrder(foundOrder || null);
-  }, [id, orders]);
-  const ingredients = useSelector((state) => state.ingredients.ingredientsData);
-
+    onCreateConnection();
+  }, [id, orders, onCreateConnection]);
   const foundIngredients = useMemo(() => {
     if (order) {
       return order.ingredients.map((id) =>
@@ -53,6 +48,7 @@ export const OrderInfo: FC = () => {
       return self.indexOf(value) === index;
     });
   }, [order]);
+  console.log(uniqueIngredients);
   return order ? (
     <div className={style.orderWrapper}>
       <div className={style.orderNumber}>
