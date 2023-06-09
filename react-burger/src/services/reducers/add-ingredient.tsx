@@ -6,7 +6,7 @@ import {
 } from "../constants/constants";
 import { TIngredientWithID } from "../../utils/types/ingredient-types";
 export type TAddedIngredientsState = {
-  addedIngredients: ReadonlyArray<TIngredientWithID>;
+  addedIngredients: Array<TIngredientWithID>;
 };
 const initialState: TAddedIngredientsState = {
   addedIngredients: [],

@@ -11,6 +11,7 @@ import {
 } from "../../../services/constants/constants-for-WS";
 import { OrderStatus } from "../../../components/order/order-status";
 import { OrderCost } from "../../../components/order/order-cost";
+import { getCookie } from "../../../utils/cookie";
 export const OrderInfo: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ export const OrderInfo: FC = () => {
   const ingredients = useSelector((state) => state.ingredients.ingredientsData);
   const onCreateConnection = useCallback(() => {
     if (orders.length < 1 && location.pathname.startsWith("/profile")) {
-      dispatch({ type: WS_CONNECTION_START_WITH_TOKEN });
+      const token = getCookie("accessToken");
+      dispatch({ type: WS_CONNECTION_START_WITH_TOKEN, token: token! });
     }
     if (orders.length < 1 && location.pathname.startsWith("/feed")) {
       dispatch({ type: WS_CONNECTION_START });

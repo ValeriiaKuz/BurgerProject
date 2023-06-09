@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "../../utils/hooks/hooks";
 
 const ComponentWrapper: FC = () => {
   const addedIngredients: Array<TIngredientWithID> = useSelector(
-    (store: any) => store.addedIngredients.addedIngredients
+    (store) => store.addedIngredients.addedIngredients
   );
   const { isLoading, isError } = useSelector((store) => store.orderNumber);
   const isUser = useSelector((store) => store.auth.isUser);

@@ -7,7 +7,7 @@ export type OrderFeedStatus = {
 };
 export const OrderFeed: FC<OrderFeedStatus> = ({ withStatus }) => {
   const orders = useSelector((state) => state.orders.messages.orders);
-  if (withStatus && orders[0]?.createdAt < orders[1]?.createdAt) {
+  if (withStatus && orders && orders[0]?.createdAt < orders[1]?.createdAt) {
     orders.reverse();
   }
   return orders ? (

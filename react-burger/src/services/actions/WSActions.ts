@@ -14,6 +14,7 @@ export interface IWSConnectionStart {
 }
 export interface IWSConnectionStartWithToken {
   readonly type: typeof WS_CONNECTION_START_WITH_TOKEN;
+  readonly token: string;
 }
 
 export interface IWSConnectionSuccessAction {

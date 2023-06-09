@@ -18,4 +18,5 @@ export type TWSResponseFeed = {
   orders: Array<TOrder>;
   total: number;
   totalToday: number;
+  message?: string;
 };

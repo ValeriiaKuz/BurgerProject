@@ -152,7 +152,7 @@ const refreshTokenRequest = (
       token,
     }),
   }).then(getResponse);
-const refreshToken = (token: string): Promise<void> => {
+export const refreshToken = (token: string): Promise<void> => {
   return refreshTokenRequest(token).then((res) => {
     let refreshToken = res.refreshToken;
     let accessToken =
