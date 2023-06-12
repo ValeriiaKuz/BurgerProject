@@ -10,7 +10,7 @@ import { rootReducer } from "./services/reducers/reducers";
 import thunk from "redux-thunk";
 import { BrowserRouter } from "react-router-dom";
 import { socketMiddleware } from "./services/middleware/socket-middleware";
-import { wsUrl } from "./utils/types";
+import { wsActions, wsActionsWithToken } from "./utils/types";
 
 const composeEnhancers =
   typeof window === "object" &&
@@ -20,22 +20,28 @@ const composeEnhancers =
 
 export const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl)))
+  composeEnhancers(
+    applyMiddleware(
+      thunk,
+      socketMiddleware(wsActions),
+      socketMiddleware(wsActionsWithToken)
+    )
+  )
 );
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
-  <ErrorBoundary>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </ErrorBoundary>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </ErrorBoundary>
+  </React.StrictMode>
 );
 
 reportWebVitals();

@@ -6,13 +6,17 @@ import {
 } from "../../../services/constants/constants-for-WS";
 import { OrderFeed } from "../../feed/order-feed/order-feed";
 import { getCookie } from "../../../utils/cookie";
+import { wsUrl } from "../../../utils/types";
 
 export const ProfileOrders: FC = () => {
   const wasConnected = useSelector((state) => state.orders.wsConnected);
   const dispatch = useDispatch();
   useEffect(() => {
     const token = getCookie("accessToken");
-    dispatch({ type: WS_CONNECTION_START_WITH_TOKEN, token: token! });
+    dispatch({
+      type: WS_CONNECTION_START_WITH_TOKEN,
+      url: `${wsUrl}?token=${token}`,
+    });
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };

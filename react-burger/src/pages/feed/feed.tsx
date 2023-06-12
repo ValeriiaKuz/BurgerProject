@@ -7,12 +7,13 @@ import {
 } from "../../services/constants/constants-for-WS";
 import { OrderStatusBoard } from "./order-status-board/order-status-board";
 import { OrderFeed } from "./order-feed/order-feed";
+import { wsUrl } from "../../utils/types";
 
 const Feed: FC = () => {
   const wasConnected = useSelector((state) => state.orders.wsConnected);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch({ type: WS_CONNECTION_START, url: `${wsUrl}/all` });
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED });
     };

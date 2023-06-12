@@ -12,6 +12,7 @@ import {
 import { OrderStatus } from "../../../components/order/order-status";
 import { OrderCost } from "../../../components/order/order-cost";
 import { getCookie } from "../../../utils/cookie";
+import { wsUrl } from "../../../utils/types";
 export const OrderInfo: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -21,10 +22,13 @@ export const OrderInfo: FC = () => {
   const onCreateConnection = useCallback(() => {
     if (orders.length < 1 && location.pathname.startsWith("/profile")) {
       const token = getCookie("accessToken");
-      dispatch({ type: WS_CONNECTION_START_WITH_TOKEN, token: token! });
+      dispatch({
+        type: WS_CONNECTION_START_WITH_TOKEN,
+        url: `${wsUrl}?token=${token}`,
+      });
     }
     if (orders.length < 1 && location.pathname.startsWith("/feed")) {
-      dispatch({ type: WS_CONNECTION_START });
+      dispatch({ type: WS_CONNECTION_START, url: `${wsUrl}/all` });
     }
   }, [dispatch, location.pathname, orders.length]);
 
@@ -50,7 +54,6 @@ export const OrderInfo: FC = () => {
       return self.indexOf(value) === index;
     });
   }, [order]);
-  console.log(uniqueIngredients);
   return order ? (
     <div className={style.orderWrapper}>
       <div className={style.orderNumber}>

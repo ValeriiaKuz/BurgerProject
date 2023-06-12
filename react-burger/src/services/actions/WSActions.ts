@@ -11,10 +11,11 @@ import { TWSResponseFeed } from "../../utils/types/ws-response";
 
 export interface IWSConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
+  readonly url: string;
 }
 export interface IWSConnectionStartWithToken {
   readonly type: typeof WS_CONNECTION_START_WITH_TOKEN;
-  readonly token: string;
+  readonly url: string;
 }
 
 export interface IWSConnectionSuccessAction {
@@ -42,9 +43,9 @@ export interface IWSSendMessageAction {
 
 export type TWSActions =
   | IWSConnectionStart
+  | IWSConnectionStartWithToken
   | IWSConnectionSuccessAction
   | IWSConnectionErrorAction
   | IWSConnectionClosedAction
   | IWSGetMessageAction
-  | IWSSendMessageAction
-  | IWSConnectionStartWithToken;
+  | IWSSendMessageAction;
