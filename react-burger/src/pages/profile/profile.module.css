@@ -1,12 +1,14 @@
 .wrapper{
     margin: 120px auto 0;
     max-width: 1240px;
+    height: 84%;
     display: flex;
     justify-content: center;
     flex-direction: row;
     gap: 60px;
 }
 .nav{
+    max-width: 320px;
     flex: 1;
 }
 .inputs{
@@ -16,6 +18,14 @@
     gap: 24px;
     align-items: end;
 
+}
+.outlet{
+    flex: 2;
+}
+.outletWithMargin{
+    flex: 2;
+    margin-top: -80px;
+    height: 100%;
 }
 .empty{
     flex: 1;

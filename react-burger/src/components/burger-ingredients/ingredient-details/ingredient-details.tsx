@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import style from "./ingredient-details.module.css";
 import { Params, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { TIngredient } from "../../../utils/types/ingredient-types";
+import { useSelector } from "../../../utils/hooks/hooks";
 
 const IngredientDetails: FC = () => {
   const [ingredient, setIngredient] = useState<TIngredient | null>(null);
-  const ingredientsData: Array<TIngredient> = useSelector(
-    (store: any) => store.ingredients.ingredientsData
+  const ingredientsData = useSelector(
+    (store) => store.ingredients.ingredientsData
   );
   let { id }: Readonly<Params> = useParams<string>();
 

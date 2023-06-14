@@ -3,7 +3,7 @@ import style from "./modal.module.css";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import React, { FC, PropsWithChildren, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export type ModalType = {
   header?: string;
   onClose: () => void;
@@ -14,11 +14,11 @@ const Modal: FC<PropsWithChildren<ModalType>> = ({
   onClose,
 }) => {
   let navigate = useNavigate();
-
+  let location = useLocation();
   useEffect(() => {
     const escClose = (event: KeyboardEvent): void => {
       if (event.key === "Escape") {
-        navigate("/");
+        navigate(location.state?.background.pathname || "/");
         onClose();
       }
     };
@@ -44,7 +44,7 @@ const Modal: FC<PropsWithChildren<ModalType>> = ({
             <CloseIcon
               type="primary"
               onClick={() => {
-                navigate("/");
+                navigate(location.state?.background.pathname || "/");
                 onClose();
               }}
             />

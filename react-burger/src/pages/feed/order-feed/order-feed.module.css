@@ -1,0 +1,24 @@
+section{
+    height: 100%;
+}
+.wrapper{
+    height: 100%;
+}
+.orders{
+    overflow-y: scroll;
+    height: 100%;
+}
+.customScroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+}
+
+.customScroll::-webkit-scrollbar-track {
+    background: #2f2f37;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+    background: #8585ad;
+    border: 3px solid #2f2f37;
+    border-radius: 6px;
+}

@@ -1,5 +1,4 @@
 import {
-  getUserRequest,
   getUserRequestWithAuth,
   sendEmailRequest,
   sendRegisterRequest,
@@ -10,31 +9,39 @@ import {
 } from "../../utils/API";
 import { deleteCookie, setCookie } from "../../utils/cookie";
 import { Navigate } from "react-router-dom";
-
-export const SEND_REGISTER = "SEND_REGISTER";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILED = "REGISTER_FAILED";
-export const SEND_LOGIN = "SEND_LOGIN";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILED = "LOGIN_FAILED";
-export const SEND_LOGOUT = "SEND_LOGOUT";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILED = "LOGOUT_FAILED";
-export const GET_USER_DATA = "GET_USER_DATA";
-export const GET_USER_DATA_SUCCESS = "GET_USER_DATA_SUCCESS";
-export const GET_USER_DATA_FAILED = "GET_USER_DATA_FAILED";
-export const SEND_NEW_PROFILE_INFO = "SEND_NEW_PROFILE_INFO";
-export const PROFILE_INFO_CHANGED_SUCCESS = "PROFILE_INFO_CHANGED_SUCCESS";
-export const PROFILE_INFO_CHANGED_FAILED = "PROFILE_INFO_CHANGED_FAILED";
-export const SEND_EMAIL = "SEND_EMAIL";
-export const SEND_EMAIL_SUCCESS = "SEND_EMAIL_SUCCESS";
-export const SEND_EMAIL_FAILED = "SEND_EMAIL_FAILED";
-export const SEND_RESET_PASSWORD = "SEND_RESET_PASSWORD";
-export const SEND_RESET_PASSWORD_SUCCESS = "SEND_RESET_PASSWORD_SUCCESS";
-export const SEND_RESET_PASSWORD_FAILED = "SEND_RESET_PASSWORD_FAILED";
-
-export const register = (valueEmail, valuePassword, valueName) => {
-  return function (dispatch) {
+import {
+  GET_USER_DATA,
+  GET_USER_DATA_FAILED,
+  GET_USER_DATA_SUCCESS,
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
+  LOGOUT_FAILED,
+  LOGOUT_SUCCESS,
+  PROFILE_INFO_CHANGED_FAILED,
+  PROFILE_INFO_CHANGED_SUCCESS,
+  REGISTER_FAILED,
+  REGISTER_SUCCESS,
+  SEND_EMAIL,
+  SEND_EMAIL_FAILED,
+  SEND_EMAIL_SUCCESS,
+  SEND_LOGIN,
+  SEND_LOGOUT,
+  SEND_NEW_PROFILE_INFO,
+  SEND_REGISTER,
+  SEND_RESET_PASSWORD,
+  SEND_RESET_PASSWORD_FAILED,
+  SEND_RESET_PASSWORD_SUCCESS,
+} from "../constants/constants";
+import { AppDispatch, AppThunkAction } from "../../utils/types";
+export type PassWordType = string;
+export type EmailType = string;
+export type NameType = string;
+export const register = (
+  valueEmail: EmailType,
+  valuePassword: PassWordType,
+  valueName: NameType
+): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SEND_REGISTER,
     });
@@ -71,8 +78,11 @@ export const register = (valueEmail, valuePassword, valueName) => {
   };
 };
 
-export const singIn = (valueEmail, valuePassword) => {
-  return function (dispatch) {
+export const singIn = (
+  valueEmail: EmailType,
+  valuePassword: PassWordType
+): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SEND_LOGIN,
     });
@@ -108,8 +118,8 @@ export const singIn = (valueEmail, valuePassword) => {
       });
   };
 };
-export const singOut = (token) => {
-  return function (dispatch) {
+export const singOut = (token: string): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SEND_LOGOUT,
     });
@@ -136,8 +146,8 @@ export const singOut = (token) => {
       });
   };
 };
-export const getUser = () => {
-  return function (dispatch) {
+export const getUser = (): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_USER_DATA,
     });
@@ -163,8 +173,8 @@ export const getUser = () => {
       });
   };
 };
-export const sendEmail = (email) => {
-  return function (dispatch) {
+export const sendEmail = (email: EmailType): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SEND_EMAIL,
     });
@@ -188,8 +198,11 @@ export const sendEmail = (email) => {
       });
   };
 };
-export const sendResetPassword = (password, code) => {
-  return function (dispatch) {
+export const sendResetPassword = (
+  password: PassWordType,
+  code: string
+): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SEND_RESET_PASSWORD,
     });
@@ -214,8 +227,12 @@ export const sendResetPassword = (password, code) => {
       });
   };
 };
-export const sendEditProfileInfo = (name, email, password) => {
-  return function (dispatch) {
+export const sendEditProfileInfo = (
+  name: NameType,
+  email: EmailType,
+  password: PassWordType | null
+): AppThunkAction => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SEND_NEW_PROFILE_INFO,
     });

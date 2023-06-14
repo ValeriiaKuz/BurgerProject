@@ -1,11 +1,11 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
 import { FC, useMemo } from "react";
 import { TIngredientWithID } from "../../../utils/types/ingredient-types";
+import { useSelector } from "../../../utils/hooks/hooks";
 
 const OrderPrice: FC = () => {
-  const burgerData: Array<TIngredientWithID> = useSelector(
-    (store: any) => store.addedIngredients.addedIngredients
+  const burgerData = useSelector(
+    (store) => store.addedIngredients.addedIngredients
   );
   const orderPrice: number = useMemo<number>(() => {
     return burgerData.reduce(

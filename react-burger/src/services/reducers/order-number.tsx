@@ -2,14 +2,22 @@ import {
   GET_ORDER_NUMBER,
   GET_ORDER_NUMBER_FAILED,
   GET_ORDER_NUMBER_SUCCESS,
-} from "../actions/order-number";
-
-const initialState = {
+} from "../constants/constants";
+import { TOrderNumberActions } from "../actions/order-number";
+export type TOrderNumberState = {
+  isLoading: boolean;
+  isError: boolean;
+  orderNumber: number | null;
+};
+const initialState: TOrderNumberState = {
   isLoading: false,
   isError: false,
   orderNumber: null,
 };
-export const orderNumberReducer = (state = initialState, action) => {
+export const orderNumberReducer = (
+  state = initialState,
+  action: TOrderNumberActions
+): TOrderNumberState => {
   switch (action.type) {
     case GET_ORDER_NUMBER: {
       return {

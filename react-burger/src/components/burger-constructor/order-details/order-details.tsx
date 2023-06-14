@@ -1,12 +1,10 @@
 import orderDoneImg from "../../../images/orderDone.svg";
 import React, { FC } from "react";
 import style from "./order-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../utils/hooks/hooks";
 
 const OrderDetails: FC = () => {
-  const orderNumber: number = useSelector(
-    (store: any) => store.orderNumber.orderNumber
-  );
+  const orderNumber = useSelector((store) => store.orderNumber.orderNumber);
   return (
     <div className={`ml-30 mr-30 mb-30 ${style.contentWrapper}`}>
       <p className={`text text_type_digits-large mb-8 ${style.orderNumber}`}>

@@ -6,18 +6,17 @@ import React, { FC } from "react";
 import style from "./ingredient-card.module.css";
 import {
   TIngredient,
-  TIngredientWithID,
 } from "../../../utils/types/ingredient-types";
-import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "../../../utils/hooks/hooks";
 type IngredientCardType = {
   readonly ingredient: TIngredient;
   draggable: true;
 };
 const IngredientCard: FC<IngredientCardType> = ({ ingredient }) => {
-  const addedIngredients: Array<TIngredientWithID> = useSelector(
-    (store: any) => store.addedIngredients.addedIngredients
+  const addedIngredients = useSelector(
+    (store) => store.addedIngredients.addedIngredients
   );
   const countTotal = (): number => {
     let count = 0;

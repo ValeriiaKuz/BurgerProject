@@ -20,8 +20,11 @@ import {
   SEND_RESET_PASSWORD,
   SEND_RESET_PASSWORD_FAILED,
   SEND_RESET_PASSWORD_SUCCESS,
-} from "../actions/auth";
-
+} from "../constants/constants";
+import { TAuthActions } from "../../utils/types/auth-types";
+type TAuthState = Omit<typeof initialState, "user"> & {
+  user: { email: null | string; name: null | string };
+};
 const initialState = {
   isUser: false,
   isLoadingRegister: false,
@@ -40,7 +43,10 @@ const initialState = {
   resetSuccess: false,
   user: { email: null, name: null },
 };
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (
+  state: TAuthState = initialState,
+  action: TAuthActions
+): TAuthState => {
   switch (action.type) {
     case SEND_REGISTER: {
       return {

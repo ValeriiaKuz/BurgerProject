@@ -1,13 +1,20 @@
+import { TIngredientActions } from "../actions/add-ingredient";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   SORT_INGREDIENTS,
-} from "../actions/add-ingredient";
-
-const initialState = {
+} from "../constants/constants";
+import { TIngredientWithID } from "../../utils/types/ingredient-types";
+export type TAddedIngredientsState = {
+  addedIngredients: Array<TIngredientWithID>;
+};
+const initialState: TAddedIngredientsState = {
   addedIngredients: [],
 };
-export const addIngredientReducer = (state = initialState, action) => {
+export const addIngredientReducer = (
+  state = initialState,
+  action: TIngredientActions
+): TAddedIngredientsState => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       const { ingredient, id } = action.payload;
