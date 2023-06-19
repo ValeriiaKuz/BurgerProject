@@ -7,7 +7,10 @@ const OrderDetails: FC = () => {
   const orderNumber = useSelector((store) => store.orderNumber.orderNumber);
   return (
     <div className={`ml-30 mr-30 mb-30 ${style.contentWrapper}`}>
-      <p className={`text text_type_digits-large mb-8 ${style.orderNumber}`}>
+      <p
+        className={`text text_type_digits-large mb-8 ${style.orderNumber}`}
+        data-testid="order-number"
+      >
         {orderNumber}
       </p>
       <h3 className="text text_type_main-medium mb-15">

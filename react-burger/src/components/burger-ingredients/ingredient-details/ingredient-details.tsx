@@ -26,21 +26,21 @@ const IngredientDetails: FC = () => {
       />
       <h3 className="text text_type_main-medium mb-8">{ingredient?.name}</h3>
       <div className="text text_type_main-default text_color_inactive">
-        <ul className={style.nutrition}>
+        <ul className={style.nutrition} data-testid="nutrition">
           <li>
-            <span> Калории,ккал </span>
+            <span>Калории,ккал</span>
             {ingredient?.calories}
           </li>
           <li>
-            <span> Белки, г</span>
+            <span>Белки, г</span>
             {ingredient?.proteins}
           </li>
           <li>
-            <span> Жиры, г</span>
+            <span>Жиры, г</span>
             {ingredient?.fat}
           </li>
           <li>
-            <span> Углеводы, г </span>
+            <span>Углеводы, г</span>
             {ingredient?.carbohydrates}
           </li>
         </ul>

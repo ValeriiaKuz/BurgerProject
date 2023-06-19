@@ -70,7 +70,11 @@ const BurgerConstructor: FC = () => {
     }
   );
   return (
-    <div className={style.constructorWrapper} ref={dropRef}>
+    <div
+      className={style.constructorWrapper}
+      ref={dropRef}
+      data-testid="drop-area"
+    >
       <div className={`${style.bunWrapper} mt-4 mb-4`}>
         {bun && (
           <ConstructorElement

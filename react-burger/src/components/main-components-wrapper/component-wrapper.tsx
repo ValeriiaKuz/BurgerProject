@@ -40,7 +40,12 @@ const ComponentWrapper: FC = () => {
   };
   return (
     <main>
-      <h1 className="text text_type_main-large mt-5 mb-5">Соберите бургер</h1>
+      <h1
+        className="text text_type_main-large mt-5 mb-5"
+        data-testid="main-title"
+      >
+        Соберите бургер
+      </h1>
       <DndProvider backend={HTML5Backend}>
         <section className={style.ingredients}>
           <BurgerIngredients />
