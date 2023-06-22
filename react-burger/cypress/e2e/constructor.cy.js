@@ -15,6 +15,20 @@ const staticResponseIngredient = {
       __v: 0,
       _id: "643d69a5c3f7b9001cfa093c",
     },
+    { calories: 4242,
+      carbohydrates: 242,
+      fat: 142,
+      image: "https://code.s3.yandex.net/react/code/meat-01.png",
+      image_large: "https://code.s3.yandex.net/react/code/meat-01-large.png",
+      image_mobile: "https://code.s3.yandex.net/react/code/meat-01-mobile.png",
+      name: "Биокотлета из марсианской Магнолии",
+      price: 424,
+      proteins: 420,
+      type: "main",
+      __v: 0,
+      _id: "643d69a5c3f7b9001cfa0941",
+
+    }
   ],
 };
 const staticResponseUser = {
@@ -110,7 +124,7 @@ describe("close modal", () => {
 });
 const Dnd = () => {
   cy.wrap(["Булки", "Начинки"]).each((category) => {
-    cy.get(`[data-testid=card-1-${category}]`)
+    cy.get(`[data-testid=card-0-${category}]`)
       .trigger("dragstart")
       .trigger("dragleave");
 
@@ -124,6 +138,7 @@ const Dnd = () => {
 describe("Drag and Drop", () => {
   before(function () {
     cy.visit(baseUrl);
+    cy.intercept("GET", ingredientsApiUrl, staticResponseIngredient)
   });
   it("should moves the ingredient card", () => {
     Dnd();
@@ -132,6 +147,7 @@ describe("Drag and Drop", () => {
 describe("click to open order modal window without auth", () => {
   beforeEach(function () {
     cy.visit(baseUrl);
+    cy.intercept("GET", ingredientsApiUrl, staticResponseIngredient)
   });
   it("should be disabled to click", () => {
     cy.get("button").should("be.disabled");
@@ -148,6 +164,7 @@ describe("click to open order modal window without auth", () => {
 describe("click to open order modal window with auth", () => {
   beforeEach(() => {
     cy.setCookie("accessToken", "value");
+    cy.intercept("GET", ingredientsApiUrl, staticResponseIngredient)
     cy.intercept("GET", authApiUrl, staticResponseUser);
     cy.intercept("POST", ordersApiUrl, staticResponseOrder);
     cy.visit(baseUrl);
