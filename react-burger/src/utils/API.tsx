@@ -26,7 +26,7 @@ interface CustomResponse<T> extends CustomBody<T> {
 }
 
 export const PUBLIC_URL: URLType = "https://norma.nomoreparties.space/api/";
-const getResponse = <T,>(res: CustomResponse<T>): Promise<T> => {
+export const getResponse = <T,>(res: CustomResponse<T>): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 export const sendGetIngredientsRequest = (): Promise<

@@ -12,13 +12,11 @@ const TypeOfIngredients: FC<TypeOfIngredients> = ({ header, ingredients }) => {
     <div>
       <h2 className="mt-10 mb-6">{header}</h2>
       <div className={style.cards}>
-        {ingredients.map((ingredient: TIngredient) => {
+        {ingredients.map((ingredient: TIngredient, index) => {
           return (
-            <IngredientCard
-              key={ingredient._id}
-              draggable
-              ingredient={ingredient}
-            />
+            <div data-testid={`card-${index}-${header}`} key={ingredient._id}>
+              <IngredientCard draggable ingredient={ingredient} />
+            </div>
           );
         })}
       </div>

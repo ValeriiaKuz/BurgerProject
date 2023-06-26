@@ -36,18 +36,21 @@ const Modal: FC<PropsWithChildren<ModalType>> = ({
           onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
             e.stopPropagation()
           }
+          data-testid="modal"
         >
           <div
             className={`${style.modalHeader} mt-10 ml-10 mr-10 text text_type_main-large`}
           >
-            <div>{header}</div>
-            <CloseIcon
-              type="primary"
-              onClick={() => {
-                navigate(location.state?.background.pathname || "/");
-                onClose();
-              }}
-            />
+            <div data-testid="modal-header">{header}</div>
+            <div data-testid="close-icon">
+              <CloseIcon
+                type="primary"
+                onClick={() => {
+                  navigate(location.state?.background.pathname || "/");
+                  onClose();
+                }}
+              />
+            </div>
           </div>
           {children}
         </div>
